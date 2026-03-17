@@ -219,6 +219,55 @@
   Double_Click: Double_Click {
     compatible = "zmk,behavior-macro";
     #binding-cells = <0>;
-    bindings = <&mkp MB1 &mkp MB1>;
+    bindings = <&mkp LCLK>, <&mkp LCLK>;
     display-name = "Double Click";
+  };
+
+  m0: qmk_m0 {
+    compatible = "zmk,behavior-macro";
+    #binding-cells = <0>;
+    display-name = "QMK M0 (Ctrl+Gui+Left)";
+    bindings = <&macro_press &kp LCTRL &kp LGUI>, <&macro_tap>, <&kp LEFT>, <&macro_release &kp LCTRL &kp LGUI>;
+  };
+
+  m1: qmk_m1 {
+    compatible = "zmk,behavior-macro";
+    #binding-cells = <0>;
+    display-name = "QMK M1 (Ctrl+Gui+Right)";
+    bindings = <&macro_press &kp LCTRL &kp LGUI>, <&macro_tap>, <&kp RIGHT>, <&macro_release &kp LCTRL &kp LGUI>;
+  };
+
+  m2: qmk_m2 {
+    compatible = "zmk,behavior-macro";
+    #binding-cells = <0>;
+    display-name = "QMK M2 (Shift+Alt+PrintScreen)";
+    bindings = <&macro_press &kp LSHIFT &kp LALT>, <&macro_tap>, <&kp PRINTSCREEN>, <&macro_release &kp LSHIFT &kp LALT>;
+  };
+
+  m3: qmk_m3 {
+    compatible = "zmk,behavior-macro";
+    #binding-cells = <0>;
+    display-name = "QMK M3 (Ctrl+Alt+Left)";
+    bindings = <&macro_press &kp LCTRL &kp LALT>, <&macro_tap &kp LEFT>, <&macro_release &kp LCTRL &kp LALT>;
+  };
+
+  m4: qmk_m4 {
+    compatible = "zmk,behavior-macro";
+    #binding-cells = <0>;
+    display-name = "QMK M4 (Ctrl+Alt+Right)";
+    bindings = <&macro_press &kp LCTRL &kp LALT>, <&macro_tap &kp RIGHT>, <&macro_release &kp LCTRL &kp LALT>;
+  };
+
+  m5: qmk_m5 {
+    compatible = "zmk,behavior-macro";
+    #binding-cells = <0>;
+    display-name = "QMK M5 (Ctrl+Alt+Up)";
+    bindings = <&macro_press &kp LCTRL &kp LALT>, <&macro_tap &kp UP>, <&macro_release &kp LCTRL &kp LALT>;
+  };
+
+  m6: qmk_m6 {
+    compatible = "zmk,behavior-macro";
+    #binding-cells = <0>;
+    display-name = "QMK M6 (Ctrl+Alt+Down)";
+    bindings = <&macro_press &kp LCTRL &kp LALT>, <&macro_tap>, <&kp DOWN>, <&macro_release &kp LCTRL &kp LALT>;
   };
