@@ -15,78 +15,64 @@ The Silakka54 is a 54-key split keyboard that uses the Lily58 shield in ZMK. Sin
 
 ## Layers
 
-The keymap includes 5 layers:
+The keymap includes 5 layers aligned to reachable QMK Vial behavior:
 
 | Layer | Name | Description |
 |-------|------|-------------|
-| 0 | `base` | Default QWERTY layout with home row mods |
-| 1 | `esab` | Mirrored base layer (for one-handed typing) |
-| 2 | `fn` | Function keys, media controls, Bluetooth, and mouse |
-| 3 | `nf` | Mirrored function layer |
-| 4 | `shift-esab` | Shifted mirrored layer |
+| 0 | `qmk-0` | Base layer (QMK layer 0 equivalent) |
+| 1 | `qmk-1` | Toggle layer (QMK layer 1 equivalent) |
+| 2 | `qmk-2` | Fn/media/nav/Bluetooth (QMK layer 2 equivalent) |
+| 3 | `qmk-3` | Macro access layer for `M1`/`M0` |
+| 4 | `qmk-4` | Macro access layer for `M5`/`M6`/`M4`/`M3` |
 
 ## Features
 
-### Home Row Mods
+### QMK-reachable behavior port
 
-The configuration uses positional hold-tap behaviors for home row modifiers:
+- Reachable QMK layers 0–4 are mapped into this ZMK keymap.
+- Tap dances:
+  - `TD(0)`: tap `PrintScreen`, double-tap `M2`
+  - `TD(1)`: single-tap/hold `FN_LT(2, ])`, double-tap `TOG(1)`
+- `FN_LT`: custom hold-tap (hold-preferred) that sends `]` on tap and activates layer 2 while held.
+- Layer-tap access:
+  - Layer 0 thumb `=` key: hold for layer 3 (`M1`/`M0`)
+  - Layer 1 thumb `=` key: hold for layer 4 (`M5`/`M6`/`M4`/`M3`)
 
-- **Bottom row**: Ctrl, Alt, Cmd, Shift (mirrored on both sides)
-- **Timing**: 200ms tapping term with 150ms prior idle requirement
-- **Flavor**: Balanced for reliable activation
+### Macro set (`M0..M6`)
 
-### Advanced Behaviors
+- `M0`: Ctrl+Gui+Left
+- `M1`: Ctrl+Gui+Right
+- `M2`: Shift+Alt+PrintScreen
+- `M3`: Ctrl+Alt+Left
+- `M4`: Ctrl+Alt+Right
+- `M5`: Ctrl+Alt+Up
+- `M6`: Ctrl+Alt+Down
 
-- `hml` / `hmr`: Home row mods (left/right) with opposite-hand trigger
-- `mml` / `mmr`: Mirror mods for the mirrored layers
-- `mll` / `mlr`: Mirror layer switching with hold-tap
+### Combos
 
-### Macros
+- `H + J -> Left`
+- `J + U -> Up`
+- `J + K -> Right`
+- `J + M -> Down`
+- `LALT + 4 -> F4`
 
-Pre-defined macros for productivity:
+### Fn usage + Studio unlock
 
-**Auto-pair characters:**
-- Quotes, double quotes, braces, parentheses, brackets
-
-**Windows shortcuts:**
-- Cut, Copy, Paste, Undo, Select All
-- Desktop, File Explorer, Snipping Tool
-- Window tiling (Left/Right/Up/Down)
-- Lock PC, Close Program, Settings
-
-**Mac shortcuts:**
-- Cut, Copy, Paste, Undo, Select All
-- Mission Control, Spotlight Search
-- Screen capture, Close Program
-- Strikethrough text
-
-### Mouse Emulation
-
-The function layer includes mouse controls:
-- Cursor movement (HJKL-style positioning)
-- Left and right click
-- Enabled via `CONFIG_ZMK_POINTING=y`
+- Use `TD(1)` as a normal Fn key:
+  - Tap for `]`
+  - Hold for momentary layer 2 access
+  - Double-tap to toggle layer 1
+- `studio_unlock` is on layer 2 so ZMK Studio remains available.
 
 ### Bluetooth
 
-- 5 Bluetooth profiles (BT_SEL 0-4)
-- Clear pairing with BT_CLR
-- Extended TX power for better range
+- Profiles on layer 2 (`BT_SEL 0..3`)
+- Clear bonding via `BT_CLR`
 
-### Display
+### Display / power
 
-- nice!view e-ink display support
-- Battery percentage indicator
-- Custom status screen
-
-### Power Management
-
+- nice!view support enabled
 - Deep sleep enabled (`CONFIG_ZMK_SLEEP=y`)
-- Optimized for battery life
-
-### ZMK Studio
-
-ZMK Studio is enabled for real-time keymap editing via the `studio_unlock` key on the function layer.
 
 ## Building
 

@@ -1,0 +1,12 @@
+/ {
+    chosen {
+        zephyr,console = &zmk_usb_logging_uart;
+        zephyr,shell-uart = &zmk_usb_logging_uart;
+    };
+};
+
+&zephyr_udc0 {
+    zmk_usb_logging_uart: zmk_usb_logging_uart {
+        compatible = "zephyr,cdc-acm-uart";
+    };
+};
