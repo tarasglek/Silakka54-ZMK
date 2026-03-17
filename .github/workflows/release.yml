@@ -69,18 +69,21 @@ jobs:
       - name: Create or update release and upload assets
         env:
           GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
           TAG: ${{ github.ref_name }}
         shell: bash
         run: |
           set -euo pipefail
 
-          if ! gh release view "$TAG" >/dev/null 2>&1; then
+          if ! gh release view "$TAG" --repo "$GH_REPO" >/dev/null 2>&1; then
             gh release create "$TAG" \
+              --repo "$GH_REPO" \
               --title "$TAG" \
               --notes "Automated firmware release for $TAG"
           fi
 
           gh release upload "$TAG" \
+            --repo "$GH_REPO" \
             dist/firmware.zip \
             dist/SHA256SUMS \
             --clobber
