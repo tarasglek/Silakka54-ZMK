@@ -4,3 +4,7 @@
 /tools/
 /.west/
 /.worktrees/
+/zmk/
+/optional/
+/.cache/
+/artifacts/
