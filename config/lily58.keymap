@@ -29,7 +29,7 @@
             label = "QMK_TD_1";
             #binding-cells = <0>;
             tapping-term-ms = <200>;
-            bindings = <&fn_lt 2 RBKT>, <&tog 1>;
+            bindings = <&fn_lt 4 RBKT>, <&tog 1>;
         };
     };
 
@@ -60,11 +60,6 @@
             bindings = <&kp DOWN>;
         };
 
-        combo_lbkt4_altf4 {
-            timeout-ms = <50>;
-            key-positions = <27 4>;
-            bindings = <&kp LA(F4)>;
-        };
     };
 
     keymap {
@@ -77,7 +72,7 @@
 &kp GRAVE      &kp Q         &kp W       &kp E       &kp R       &kp T       &kp Y        &kp U       &kp I       &kp O       &kp P       &kp BSLH
 &kp LSHIFT     &kp A         &kp S       &kp D       &kp F       &kp G       &kp H        &kp J       &kp K       &kp L       &kp SQT     &kp LGUI
 &mt LCTRL SEMI &kp Z         &kp X       &kp C       &kp V       &kp B       &none        &none       &kp N       &kp M       &kp COMMA   &kp DOT     &kp FSLH     &kp TAB
-                                      &mt LALT LBKT  &td1         &kp ENTER   &none        &none       &kp SPACE   &kp MINUS   &lt 3 EQUAL
+                                      &fn_lt 3 LBKT  &td1         &kp ENTER   &none        &none       &kp SPACE   &fn_lt 4 MINUS &fn_lt 3 EQUAL
             >;
         };
 
@@ -88,7 +83,7 @@
 &trans          &trans        &trans      &trans      &trans      &trans      &trans       &trans      &trans      &trans      &trans      &trans
 &trans          &trans        &trans      &trans      &trans      &trans      &trans       &trans      &trans      &trans      &trans      &trans
 &trans          &trans        &trans      &trans      &trans      &trans      &none        &none       &trans      &trans      &trans      &trans      &trans      &trans
-                                       &trans         &trans       &trans      &none        &none       &trans      &trans      &lt 4 EQUAL
+                                       &trans         &trans       &trans      &none        &none       &trans      &trans      &trans
             >;
         };
 
@@ -103,24 +98,24 @@
             >;
         };
 
-        layer_3 {
-            display-name = "qmk-3";
+        layer_nav {
+            display-name = "nav";
             bindings = <
 &trans          &trans        &trans      &trans      &trans      &trans      &trans       &trans      &trans      &trans      &trans      &trans
 &trans          &trans        &trans      &trans      &trans      &trans      &trans       &trans      &trans      &trans      &trans      &trans
-&trans          &trans        &trans      &trans      &trans      &trans      &trans       &trans      &trans      &trans      &trans      &trans
-&trans          &trans        &trans      &trans      &trans      &trans      &none        &none       &trans      &trans      &m0         &m1         &trans       &trans
+&trans          &trans        &trans      &trans      &trans      &trans      &trans       &trans      &trans      &trans      &kp UP      &kp LA(F4)
+&kp LA(TAB)     &trans        &trans      &trans      &trans      &trans      &none        &none       &trans      &trans      &kp LEFT    &kp DOWN    &kp RIGHT    &kp LA(TAB)
                                        &trans         &trans       &trans      &none        &none       &trans      &trans      &trans
             >;
         };
 
-        layer_4 {
-            display-name = "qmk-4";
+        layer_desktop {
+            display-name = "desktop-move";
             bindings = <
 &trans          &trans        &trans      &trans      &trans      &trans      &trans       &trans      &trans      &trans      &trans      &trans
 &trans          &trans        &trans      &trans      &trans      &trans      &trans       &trans      &trans      &trans      &trans      &trans
-&trans          &trans        &trans      &trans      &trans      &trans      &trans       &trans      &trans      &trans      &m5         &trans
-&trans          &trans        &trans      &trans      &trans      &trans      &none        &none       &trans      &trans      &m3         &m4         &m6         &trans
+&trans          &trans        &trans      &trans      &trans      &trans      &trans       &trans      &trans      &trans      &kp LC(LA(UP)) &trans
+&trans          &trans        &trans      &trans      &trans      &trans      &none        &none       &trans      &trans      &kp LC(LA(LEFT)) &kp LC(LA(DOWN)) &kp LC(LA(RIGHT)) &trans
                                        &trans         &trans       &trans      &none        &none       &trans      &trans      &trans
             >;
         };

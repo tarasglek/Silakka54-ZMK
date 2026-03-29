@@ -15,38 +15,42 @@ The Silakka54 is a 54-key split keyboard that uses the Lily58 shield in ZMK. Sin
 
 ## Layers
 
-The keymap includes 5 layers aligned to reachable QMK Vial behavior:
+The keymap includes 5 active layers:
 
 | Layer | Name | Description |
 |-------|------|-------------|
-| 0 | `qmk-0` | Base layer (QMK layer 0 equivalent) |
-| 1 | `qmk-1` | Toggle layer (QMK layer 1 equivalent) |
-| 2 | `qmk-2` | Fn/media/nav/Bluetooth (QMK layer 2 equivalent) |
-| 3 | `qmk-3` | Macro access layer for `M1`/`M0` |
-| 4 | `qmk-4` | Macro access layer for `M5`/`M6`/`M4`/`M3` |
+| 0 | `qmk-0` | Base typing layer |
+| 1 | `qmk-1` | Toggle layer |
+| 2 | `qmk-2` | Fn/media/Bluetooth + Studio unlock |
+| 3 | `nav` | Navigation layer (arrows + Alt+Tab + Alt+F4) |
+| 4 | `desktop-move` | Desktop-move layer (Ctrl+Alt arrows) |
 
 ## Features
 
-### QMK-reachable behavior port
+### Mirrored thumb layer access
 
-- Reachable QMK layers 0–4 are mapped into this ZMK keymap.
-- Tap dances:
-  - `TD(0)`: tap `PrintScreen`, double-tap `M2`
-  - `TD(1)`: single-tap/hold `FN_LT(2, ])`, double-tap `TOG(1)`
-- `FN_LT`: custom hold-tap (hold-preferred) that sends `]` on tap and activates layer 2 while held.
-- Layer-tap access:
-  - Layer 0 thumb `=` key: hold for layer 3 (`M1`/`M0`)
-  - Layer 1 thumb `=` key: hold for layer 4 (`M5`/`M6`/`M4`/`M3`)
+- `[` and `=`: tap for key, hold for `nav` layer.
+- `]` and `-`: tap for key, hold for `desktop-move` layer.
+- `TD(1)` remains on `]`:
+  - Tap `]`
+  - Hold for `desktop-move`
+  - Double-tap toggles layer 1
 
-### Macro set (`M0..M6`)
+### Mirrored direction cluster
 
-- `M0`: Ctrl+Gui+Left
-- `M1`: Ctrl+Gui+Right
-- `M2`: Shift+Alt+PrintScreen
-- `M3`: Ctrl+Alt+Left
-- `M4`: Ctrl+Alt+Right
-- `M5`: Ctrl+Alt+Up
-- `M6`: Ctrl+Alt+Down
+On both mirrored layers, the visible direction cluster is on `, . / '`:
+
+- `, . / '` on `nav` -> Left / Down / Right / Up arrows
+- `, . / '` on `desktop-move` -> Ctrl+Alt+Left / Down / Right / Up
+
+Additional `nav` bindings:
+- `;` -> Alt+Tab
+- `Tab` -> Alt+Tab
+- right GUI-position key -> Alt+F4
+
+### Screenshot behavior
+
+- `TD(0)`: tap `PrintScreen`, double-tap `M2` (Shift+Alt+PrintScreen)
 
 ### Combos
 
@@ -54,15 +58,10 @@ The keymap includes 5 layers aligned to reachable QMK Vial behavior:
 - `J + U -> Up`
 - `J + K -> Right`
 - `J + M -> Down`
-- `[ + 4 -> Alt+F4`
 
 ### Fn usage + Studio unlock
 
-- Use `TD(1)` as a normal Fn key:
-  - Tap for `]`
-  - Hold for momentary layer 2 access
-  - Double-tap to toggle layer 1
-- `studio_unlock` is on layer 2 so ZMK Studio remains available.
+- Layer 2 (`qmk-2`) still carries media/Bluetooth keys and `studio_unlock`.
 
 ### Bluetooth
 
@@ -73,6 +72,15 @@ The keymap includes 5 layers aligned to reachable QMK Vial behavior:
 
 - nice!view support enabled
 - Deep sleep enabled (`CONFIG_ZMK_SLEEP=y`)
+
+## Keymap Visualization
+
+Generated layout docs are committed under `docs/generated/`.
+
+- Regenerate YAML + SVG: `make keymap-svg`
+- Canonical rendered keymap: [`docs/generated/silakka54.svg`](docs/generated/silakka54.svg)
+
+![Generated Silakka54 keymap](docs/generated/silakka54.svg)
 
 ## Building
 

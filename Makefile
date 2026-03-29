@@ -1,6 +1,10 @@
 IMAGE ?= zmkfirmware/zmk-build-arm@sha256:edb1c953438c6f720ddb79c3762f3972013b7fbbaf4fff3592fc869983e7afc5
 ARTIFACTS_DIR ?= artifacts
 CACHE_DIR ?= .cache/zmk
+KEYMAP_DOCS_DIR ?= docs/generated
+KEYMAP_FILE ?= config/lily58.keymap
+KEYMAP_YAML ?= $(KEYMAP_DOCS_DIR)/silakka54.yaml
+KEYMAP_SVG ?= $(KEYMAP_DOCS_DIR)/silakka54.svg
 
 DOCKER_RUN = docker run --rm \
 	-v "$(CURDIR):/work" \
@@ -11,7 +15,7 @@ DOCKER_RUN = docker run --rm \
 	$(IMAGE) \
 	bash -lc
 
-.PHONY: build build-left build-right build-reset west-setup clean
+.PHONY: build build-left build-right build-reset west-setup clean keymap-yaml keymap-svg keymap-docs
 
 build: build-left build-right build-reset
 
@@ -45,6 +49,15 @@ build-reset: west-setup
 		west zephyr-export; \
 		west build -s zmk/app -d build/settings_reset -b nice_nano -- -DZMK_CONFIG=/work/config -DSHIELD="settings_reset"; \
 		cp build/settings_reset/zephyr/zmk.uf2 /work/$(ARTIFACTS_DIR)/settings_reset.uf2'
+
+keymap-yaml:
+	mkdir -p $(KEYMAP_DOCS_DIR)
+	uvx --from keymap-drawer keymap parse -z $(KEYMAP_FILE) > $(KEYMAP_YAML)
+
+keymap-svg: keymap-yaml
+	uvx --from keymap-drawer keymap draw $(KEYMAP_YAML) > $(KEYMAP_SVG)
+
+keymap-docs: keymap-svg
 
 clean:
 	rm -rf build $(ARTIFACTS_DIR)
