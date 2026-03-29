@@ -19,15 +19,12 @@ DOCKER_RUN = docker run --rm \
 
 build: build-left build-right build-reset
 
-west-setup: .west/.setup-complete
-
-.west/.setup-complete:
+west-setup:
 	mkdir -p $(ARTIFACTS_DIR) $(CACHE_DIR)/zephyr $(CACHE_DIR)/ccache
 	$(DOCKER_RUN) 'set -euo pipefail; \
 		[ -d .west ] || west init -l config; \
 		west update --fetch-opt=--filter=tree:0; \
-		if west help 2>/dev/null | grep -q "zephyr-export"; then west zephyr-export; fi; \
-		touch /work/.west/.setup-complete'
+		if west help 2>/dev/null | grep -q "zephyr-export"; then west zephyr-export; fi'
 
 build-left: west-setup
 	mkdir -p $(ARTIFACTS_DIR)
