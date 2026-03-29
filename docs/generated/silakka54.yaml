@@ -49,7 +49,7 @@ layers:
   - .
   - /
   - TAB
-  - {t: '[', h: nav}
+  - {t: '[', h: LALT}
   - '&td1'
   - ENTER
   - SPACE
@@ -159,12 +159,12 @@ layers:
   - RIGHT
   - DOWN
   - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
   - {type: held}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
   desktop-move:
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
