@@ -31,12 +31,12 @@ jobs:
           mkdir -p dist
           find artifacts -type f -name "*.uf2" -print
 
-          left_file="$(find artifacts -type f -name "*.uf2" | grep -m1 "lily58_left")"
-          right_file="$(find artifacts -type f -name "*.uf2" | grep -m1 "lily58_right")"
+          left_file="$(find artifacts -type f -name "*.uf2" | grep -E -m1 "(silakka54_left|lily58_left)")"
+          right_file="$(find artifacts -type f -name "*.uf2" | grep -E -m1 "(silakka54_right|lily58_right)")"
           reset_file="$(find artifacts -type f -name "*.uf2" | grep -m1 "settings_reset")"
 
-          cp "$left_file" dist/lily58_left.uf2
-          cp "$right_file" dist/lily58_right.uf2
+          cp "$left_file" dist/silakka54_left.uf2
+          cp "$right_file" dist/silakka54_right.uf2
           cp "$reset_file" dist/settings_reset.uf2
 
       - name: Create firmware archive + checksums
@@ -44,7 +44,7 @@ jobs:
         run: |
           set -euo pipefail
 
-          (cd dist && zip -r firmware.zip lily58_left.uf2 lily58_right.uf2 settings_reset.uf2)
+          (cd dist && zip -r firmware.zip silakka54_left.uf2 silakka54_right.uf2 settings_reset.uf2)
           (cd dist && sha256sum firmware.zip > SHA256SUMS)
 
       - name: Upload packaged release artifacts
