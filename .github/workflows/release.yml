@@ -31,8 +31,8 @@ jobs:
           mkdir -p dist
           find artifacts -type f -name "*.uf2" -print
 
-          left_file="$(find artifacts -type f -name "*.uf2" | grep -E -m1 "(silakka54_left|lily58_left)")"
-          right_file="$(find artifacts -type f -name "*.uf2" | grep -E -m1 "(silakka54_right|lily58_right)")"
+          left_file="$(find artifacts -type f -name "*.uf2" | grep -m1 "silakka54_left")"
+          right_file="$(find artifacts -type f -name "*.uf2" | grep -m1 "silakka54_right")"
           reset_file="$(find artifacts -type f -name "*.uf2" | grep -m1 "settings_reset")"
 
           cp "$left_file" dist/silakka54_left.uf2
