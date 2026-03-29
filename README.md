@@ -83,9 +83,24 @@ The workflow generates firmware for:
 - `lily58_right` with nice!view
 - `settings_reset` (for clearing bond information)
 
-### Manual Build
+### Local Build (Docker)
 
-To build locally, follow the [ZMK documentation](https://zmk.dev/docs/development/setup) for setting up a development environment.
+Requirements:
+- Docker
+- GNU Make
+
+Run:
+
+```bash
+make build
+```
+
+Outputs are written to `artifacts/`:
+- `artifacts/lily58_left.uf2`
+- `artifacts/lily58_right.uf2`
+- `artifacts/settings_reset.uf2`
+
+GitHub Actions uses the same `make build` path.
 
 ## Installation
 
