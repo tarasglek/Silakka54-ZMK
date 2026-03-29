@@ -29,7 +29,7 @@
 - `J + U -> Up`
 - `J + K -> Right`
 - `J + M -> Down`
-- `LALT + 4 -> F4`
+- `[ + 4 -> Alt+F4`
 
 ## QMK -> ZMK behavior mapping
 

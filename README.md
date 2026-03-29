@@ -54,7 +54,7 @@ The keymap includes 5 layers aligned to reachable QMK Vial behavior:
 - `J + U -> Up`
 - `J + K -> Right`
 - `J + M -> Down`
-- `LALT + 4 -> F4`
+- `[ + 4 -> Alt+F4`
 
 ### Fn usage + Studio unlock
 

@@ -60,10 +60,10 @@
             bindings = <&kp DOWN>;
         };
 
-        combo_alt4_f4 {
+        combo_lbkt4_altf4 {
             timeout-ms = <50>;
-            key-positions = <50 4>;
-            bindings = <&kp F4>;
+            key-positions = <27 4>;
+            bindings = <&kp LA(F4)>;
         };
     };
 
