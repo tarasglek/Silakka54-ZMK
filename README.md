@@ -4,7 +4,7 @@ A ZMK firmware configuration for the **Silakka54** split ergonomic keyboard.
 
 ## Overview
 
-The Silakka54 is a 54-key split keyboard that uses the Lily58 shield in ZMK. Since the Lily58 has 58 keys, the 4 keys not present on the Silakka54 are mapped as `&none` (dead keys).
+The Silakka54 is a 54-key split keyboard using a native `silakka54` ZMK shield/keymap. The layout is modeled directly as 54 physical positions (no compatibility dead slots).
 
 ### Hardware
 
@@ -87,8 +87,8 @@ Generated layout docs are committed under `docs/generated/`.
 Firmware is built automatically via GitHub Actions. Push to the repository to trigger a build.
 
 The workflow generates firmware for:
-- `lily58_left` with nice!view
-- `lily58_right` with nice!view
+- `silakka54_left` with nice!view
+- `silakka54_right` with nice!view
 - `settings_reset` (for clearing bond information)
 
 ### Local Build (Docker)
@@ -104,8 +104,8 @@ make build
 ```
 
 Outputs are written to `artifacts/`:
-- `artifacts/lily58_left.uf2`
-- `artifacts/lily58_right.uf2`
+- `artifacts/silakka54_left.uf2`
+- `artifacts/silakka54_right.uf2`
 - `artifacts/settings_reset.uf2`
 
 GitHub Actions uses the same `make build` path.
@@ -124,9 +124,10 @@ GitHub Actions uses the same `make build` path.
 │   └── workflows/
 │       └── build.yml       # GitHub Actions workflow
 ├── config/
-│   ├── lily58.conf         # ZMK configuration options
-│   ├── lily58.keymap       # Keymap definition
+│   ├── silakka54.conf      # ZMK configuration options
+│   ├── silakka54.keymap    # Keymap definition
 │   ├── macros.dtsi         # Macro definitions
+│   ├── boards/shields/silakka54/ # Native Silakka54 shield definition
 │   └── west.yml            # West manifest
 ├── build.yaml              # Build matrix configuration
 └── README.md

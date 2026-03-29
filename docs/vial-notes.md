@@ -61,8 +61,8 @@ Shared visible cluster: `, . / '`
 
 ## Physical mapping notes
 
-- QMK Vial positions are mapped to Lily58 logical positions in ZMK `bindings`.
-- Silakka54 missing positions remain `&none`.
+- QMK Vial positions are mapped to native Silakka54 logical positions in ZMK `bindings`.
+- Native keymap uses exactly 54 active positions (no compatibility placeholders).
 - Right-half canonical physical order (layer 0):
   - Row 1: `6 7 8 9 0 Backspace`
   - Row 2: `Y U I O P \\`
@@ -85,6 +85,6 @@ Shared visible cluster: `, . / '`
 
 - CI run: https://github.com/tarasglek/Silakka54-ZMK/actions/runs/23198677094
 - Firmware artifacts:
-  - `lily58_left nice_view_adapter nice_view-nice_nano-zmk.uf2`
-  - `lily58_right nice_view_adapter nice_view-nice_nano-zmk.uf2`
+  - `silakka54_left nice_view_adapter nice_view-nice_nano-zmk.uf2`
+  - `silakka54_right nice_view_adapter nice_view-nice_nano-zmk.uf2`
   - `settings_reset-nice_nano-zmk.uf2`

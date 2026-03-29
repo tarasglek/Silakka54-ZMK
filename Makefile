@@ -2,7 +2,7 @@ IMAGE ?= zmkfirmware/zmk-build-arm@sha256:edb1c953438c6f720ddb79c3762f3972013b7f
 ARTIFACTS_DIR ?= artifacts
 CACHE_DIR ?= .cache/zmk
 KEYMAP_DOCS_DIR ?= docs/generated
-KEYMAP_FILE ?= config/lily58.keymap
+KEYMAP_FILE ?= config/silakka54.keymap
 KEYMAP_YAML ?= $(KEYMAP_DOCS_DIR)/silakka54.yaml
 KEYMAP_SVG ?= $(KEYMAP_DOCS_DIR)/silakka54.svg
 
@@ -34,8 +34,8 @@ build-left: west-setup
 		[ -d .west ] || west init -l config; \
 		west update --fetch-opt=--filter=tree:0; \
 		if west help 2>/dev/null | grep -q "zephyr-export"; then west zephyr-export; fi; \
-		west build -s zmk/app -d build/lily58_left -b nice_nano -S studio-rpc-usb-uart -- -DZMK_CONFIG=/work/config -DSHIELD="lily58_left nice_view_adapter nice_view"; \
-		cp build/lily58_left/zephyr/zmk.uf2 /work/$(ARTIFACTS_DIR)/lily58_left.uf2'
+		west build -s zmk/app -d build/silakka54_left -b nice_nano -S studio-rpc-usb-uart -- -DZMK_CONFIG=/work/config -DSHIELD="silakka54_left nice_view_adapter nice_view"; \
+		cp build/silakka54_left/zephyr/zmk.uf2 /work/$(ARTIFACTS_DIR)/silakka54_left.uf2'
 
 build-right: west-setup
 	mkdir -p $(ARTIFACTS_DIR)
@@ -44,8 +44,8 @@ build-right: west-setup
 		[ -d .west ] || west init -l config; \
 		west update --fetch-opt=--filter=tree:0; \
 		if west help 2>/dev/null | grep -q "zephyr-export"; then west zephyr-export; fi; \
-		west build -s zmk/app -d build/lily58_right -b nice_nano -- -DZMK_CONFIG=/work/config -DSHIELD="lily58_right nice_view_adapter nice_view"; \
-		cp build/lily58_right/zephyr/zmk.uf2 /work/$(ARTIFACTS_DIR)/lily58_right.uf2'
+		west build -s zmk/app -d build/silakka54_right -b nice_nano -- -DZMK_CONFIG=/work/config -DSHIELD="silakka54_right nice_view_adapter nice_view"; \
+		cp build/silakka54_right/zephyr/zmk.uf2 /work/$(ARTIFACTS_DIR)/silakka54_right.uf2'
 
 build-reset: west-setup
 	mkdir -p $(ARTIFACTS_DIR)

@@ -1,4 +1,4 @@
-layout: {zmk_keyboard: lily58}
+layout: {zmk_keyboard: silakka54}
 layers:
   qmk-0:
   - ESCAPE
@@ -43,8 +43,6 @@ layers:
   - C
   - V
   - B
-  - ''
-  - ''
   - N
   - M
   - ','
@@ -54,8 +52,6 @@ layers:
   - {t: '[', h: nav}
   - '&td1'
   - ENTER
-  - ''
-  - ''
   - SPACE
   - {t: '-', h: desktop-move}
   - {t: '=', h: nav}
@@ -102,8 +98,6 @@ layers:
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
-  - ''
-  - ''
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
@@ -113,8 +107,6 @@ layers:
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
-  - ''
-  - ''
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
@@ -161,8 +153,6 @@ layers:
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - VOL DN
-  - ''
-  - ''
   - {t: ▽, type: trans}
   - DOWN
   - HOME
@@ -172,8 +162,6 @@ layers:
   - {t: BT, h: '0'}
   - {t: BT, h: '1'}
   - BT CLR
-  - ''
-  - ''
   - {t: BT, h: '3'}
   - {t: BT, h: '2'}
   - {t: ▽, type: trans}
@@ -220,8 +208,6 @@ layers:
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
-  - ''
-  - ''
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - LEFT
@@ -231,8 +217,6 @@ layers:
   - {type: held}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
-  - ''
-  - ''
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
@@ -279,8 +263,6 @@ layers:
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
-  - ''
-  - ''
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - Ctl+Alt+LEFT
@@ -290,8 +272,6 @@ layers:
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
-  - ''
-  - ''
   - {t: ▽, type: trans}
   - {type: held}
   - {t: ▽, type: trans}
@@ -302,5 +282,5 @@ combos:
   k: UP
 - p: [31, 32]
   k: RIGHT
-- p: [31, 45]
+- p: [31, 43]
   k: DOWN
