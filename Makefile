@@ -30,6 +30,9 @@ west-setup:
 build-left: west-setup
 	mkdir -p $(ARTIFACTS_DIR)
 	$(DOCKER_RUN) 'set -euo pipefail; \
+		git config --global --add safe.directory "*" || true; \
+		[ -d .west ] || west init -l config; \
+		west update --fetch-opt=--filter=tree:0; \
 		if west help 2>/dev/null | grep -q "zephyr-export"; then west zephyr-export; fi; \
 		west build -s zmk/app -d build/lily58_left -b nice_nano -S studio-rpc-usb-uart -- -DZMK_CONFIG=/work/config -DSHIELD="lily58_left nice_view_adapter nice_view"; \
 		cp build/lily58_left/zephyr/zmk.uf2 /work/$(ARTIFACTS_DIR)/lily58_left.uf2'
@@ -37,6 +40,9 @@ build-left: west-setup
 build-right: west-setup
 	mkdir -p $(ARTIFACTS_DIR)
 	$(DOCKER_RUN) 'set -euo pipefail; \
+		git config --global --add safe.directory "*" || true; \
+		[ -d .west ] || west init -l config; \
+		west update --fetch-opt=--filter=tree:0; \
 		if west help 2>/dev/null | grep -q "zephyr-export"; then west zephyr-export; fi; \
 		west build -s zmk/app -d build/lily58_right -b nice_nano -- -DZMK_CONFIG=/work/config -DSHIELD="lily58_right nice_view_adapter nice_view"; \
 		cp build/lily58_right/zephyr/zmk.uf2 /work/$(ARTIFACTS_DIR)/lily58_right.uf2'
@@ -44,6 +50,9 @@ build-right: west-setup
 build-reset: west-setup
 	mkdir -p $(ARTIFACTS_DIR)
 	$(DOCKER_RUN) 'set -euo pipefail; \
+		git config --global --add safe.directory "*" || true; \
+		[ -d .west ] || west init -l config; \
+		west update --fetch-opt=--filter=tree:0; \
 		if west help 2>/dev/null | grep -q "zephyr-export"; then west zephyr-export; fi; \
 		west build -s zmk/app -d build/settings_reset -b nice_nano -- -DZMK_CONFIG=/work/config -DSHIELD="settings_reset"; \
 		cp build/settings_reset/zephyr/zmk.uf2 /work/$(ARTIFACTS_DIR)/settings_reset.uf2'
