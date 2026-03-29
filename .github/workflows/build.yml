@@ -6,13 +6,43 @@ on:
       - ".github/workflows/build.yml"
       - "build.yaml"
       - "config/**"
+      - "Makefile"
   pull_request:
     paths:
       - ".github/workflows/build.yml"
       - "build.yaml"
       - "config/**"
+      - "Makefile"
   workflow_dispatch:
 
 jobs:
   build:
-    uses: zmkfirmware/zmk/.github/workflows/build-user-config.yml@45de943485ac009660037eb81a7265e1cafe2b4e
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Cache build dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            .west
+            modules
+            optional
+            zephyr
+            zmk
+            tools
+            build
+            .cache
+          key: ${{ runner.os }}-zmk-build-${{ hashFiles('build.yaml', 'Makefile', 'config/**') }}
+          restore-keys: |
+            ${{ runner.os }}-zmk-build-
+
+      - name: Build firmware
+        run: make build
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: firmware
+          path: artifacts/*.uf2
