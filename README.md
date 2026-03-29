@@ -15,15 +15,14 @@ The Silakka54 is a 54-key split keyboard using a native `silakka54` ZMK shield/k
 
 ## Layers
 
-The keymap includes 5 active layers:
+The keymap includes 4 active layers:
 
 | Layer | Name | Description |
 |-------|------|-------------|
-| 0 | `qmk-0` | Base typing layer |
-| 1 | `qmk-1` | Toggle layer |
-| 2 | `qmk-2` | Fn/media/Bluetooth + Studio unlock |
-| 3 | `nav` | Navigation layer (arrows + Alt+Tab + Alt+F4) |
-| 4 | `desktop-move` | Desktop-move layer (Ctrl+Alt arrows) |
+| 0 | `base` | Base typing layer |
+| 1 | `overflow` | Fn/media/Bluetooth + Studio unlock |
+| 2 | `nav` | Navigation layer (arrows + Alt+Tab + Alt+F4) |
+| 3 | `desktop-move` | Desktop-move layer (Ctrl+Alt arrows) |
 
 ## Features
 
@@ -34,14 +33,14 @@ The keymap includes 5 active layers:
 - `TD(1)` remains on `]`:
   - Tap `]`
   - Hold for `desktop-move`
-  - Double-tap toggles layer 1
+  - Double-tap toggles `overflow`
 
 ### Mirrored direction cluster
 
 On both mirrored layers, the visible direction cluster is on `, . / '`:
 
-- `, . / '` on `nav` -> Left / Down / Right / Up arrows
-- `, . / '` on `desktop-move` -> Ctrl+Alt+Left / Down / Right / Up
+- `, . / '` on `nav` -> Left / Right / Down / Up arrows
+- `, . / '` on `desktop-move` -> Ctrl+Alt+Left / Right / Down / Up
 
 Additional `nav` bindings:
 - `;` -> Alt+Tab
@@ -61,11 +60,11 @@ Additional `nav` bindings:
 
 ### Fn usage + Studio unlock
 
-- Layer 2 (`qmk-2`) still carries media/Bluetooth keys and `studio_unlock`.
+- Layer 1 (`overflow`) still carries media/Bluetooth keys and `studio_unlock`.
 
 ### Bluetooth
 
-- Profiles on layer 2 (`BT_SEL 0..3`)
+- Profiles on layer 1 (`BT_SEL 0..3`)
 - Clear bonding via `BT_CLR`
 
 ### Display / power
