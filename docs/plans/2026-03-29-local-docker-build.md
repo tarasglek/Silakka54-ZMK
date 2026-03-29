@@ -16,6 +16,7 @@
   - `.cache/zmk/ccache`
 - `west` setup is memoized via `.west/.setup-complete`.
 - CI run `23704747626` failed in `Build firmware` because `west zephyr-export` state was not persisted across Docker invocations; fixed by running `west zephyr-export` in each build target.
+- CI run `23704805519` succeeded for build/upload but warned that cache save failed due root-owned files; fixed by adding a workflow step to `chown` build/cache directories before post-cache save.
 
 ---
 

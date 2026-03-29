@@ -41,6 +41,11 @@ jobs:
       - name: Build firmware
         run: make build
 
+      - name: Fix workspace ownership for cache save
+        run: |
+          sudo chown -R "$(id -u):$(id -g)" \
+            .west modules optional zephyr zmk tools build .cache artifacts || true
+
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
