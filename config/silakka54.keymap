@@ -7,9 +7,9 @@
     behaviors {
         #include "macros.dtsi"
 
-        td0: qmk_td_0 {
+        td0: td_0 {
             compatible = "zmk,behavior-tap-dance";
-            label = "QMK_TD_0";
+            label = "TD_0";
             #binding-cells = <0>;
             tapping-term-ms = <200>;
             bindings = <&kp PRINTSCREEN>, <&m2>;
@@ -24,12 +24,39 @@
             bindings = <&mo>, <&kp>;
         };
 
-        td1: qmk_td_1 {
+        alt_2_f2: alt_2_f2 {
+            compatible = "zmk,behavior-mod-morph";
+            label = "ALT_2_F2";
+            #binding-cells = <0>;
+            bindings = <&kp N2>, <&kp F2>;
+            mods = <(MOD_LALT|MOD_RALT)>;
+            keep-mods = <(MOD_LALT|MOD_RALT)>;
+        };
+
+        alt_4_f4: alt_4_f4 {
+            compatible = "zmk,behavior-mod-morph";
+            label = "ALT_4_F4";
+            #binding-cells = <0>;
+            bindings = <&kp N4>, <&kp F4>;
+            mods = <(MOD_LALT|MOD_RALT)>;
+            keep-mods = <(MOD_LALT|MOD_RALT)>;
+        };
+
+        alt_semi_tab: alt_semi_tab {
+            compatible = "zmk,behavior-mod-morph";
+            label = "ALT_SEMI_TAB";
+            #binding-cells = <0>;
+            bindings = <&mt LCTRL SEMI>, <&kp TAB>;
+            mods = <(MOD_LALT|MOD_RALT)>;
+            keep-mods = <(MOD_LALT|MOD_RALT)>;
+        };
+
+        td1: td_1 {
             compatible = "zmk,behavior-tap-dance";
-            label = "QMK_TD_1";
+            label = "TD_1";
             #binding-cells = <0>;
             tapping-term-ms = <200>;
-            bindings = <&fn_lt 3 RBKT>, <&sl 4>;
+            bindings = <&fn_lt 1 RBKT>, <&sl 4>;
         };
     };
 
@@ -67,10 +94,10 @@
         layer_0 {
             display-name = "base";
             bindings = <
-&kp ESCAPE        &kp N1        &kp N2      &kp N3      &kp N4      &kp N5       &kp N6       &kp N7      &kp N8      &kp N9      &kp N0      &kp BACKSPACE
+&kp ESCAPE        &kp N1        &alt_2_f2   &kp N3      &alt_4_f4   &kp N5       &kp N6       &kp N7      &kp N8      &kp N9      &kp N0      &kp BACKSPACE
 &kp GRAVE         &kp Q         &kp W       &kp E       &kp R       &kp T        &kp Y        &kp U       &kp I       &kp O       &kp P       &kp BSLH
 &kp LSHIFT        &kp A         &kp S       &kp D       &kp F       &kp G        &kp H        &kp J       &kp K       &kp L       &kp SQT     &kp LGUI
-&mt LCTRL SEMI    &kp Z         &kp X       &kp C       &kp V       &kp B        &kp N        &kp M       &kp COMMA   &kp DOT     &kp FSLH    &kp TAB
+&alt_semi_tab     &kp Z         &kp X       &kp C       &kp V       &kp B        &kp N        &kp M       &kp COMMA   &kp DOT     &kp FSLH    &kp TAB
                                           &mt LALT LBKT  &td1         &kp ENTER    &kp SPACE   &fn_lt 3 MINUS &fn_lt 2 EQUAL
             >;
         };
@@ -89,7 +116,7 @@
         layer_nav {
             display-name = "nav";
             bindings = <
-&trans            &trans        &kp LA(F2)  &trans      &kp LA(F4)  &trans       &trans       &trans      &trans      &trans      &trans      &trans
+&trans            &trans        &trans      &trans      &trans      &trans       &trans       &trans      &trans      &trans      &trans      &trans
 &trans            &trans        &trans      &trans      &trans      &trans       &trans       &trans      &trans      &trans      &trans      &trans
 &trans            &trans        &trans      &trans      &trans      &trans       &trans       &trans      &trans      &trans      &kp UP      &trans
 &trans            &trans        &trans      &trans      &trans      &trans       &trans       &trans      &kp LEFT    &kp RIGHT   &kp DOWN    &trans

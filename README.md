@@ -15,7 +15,7 @@ The Silakka54 is a 54-key split keyboard using a native `silakka54` ZMK shield/k
 
 ## Layers
 
-The keymap includes 4 active layers:
+The keymap includes 5 active layers:
 
 | Layer | Name | Description |
 |-------|------|-------------|
@@ -23,17 +23,19 @@ The keymap includes 4 active layers:
 | 1 | `overflow` | Fn/media/Bluetooth + Studio unlock |
 | 2 | `nav` | Navigation layer (arrows + Alt+Tab + Alt+F4) |
 | 3 | `desktop-move` | Desktop-move layer (Ctrl+Alt arrows) |
+| 4 | `onehand-mirror` | Sticky mirrored right-hand typing layer |
 
 ## Features
 
 ### Mirrored thumb layer access
 
 - `[` and `=`: tap for key, hold for `nav` layer.
-- `]` and `-`: tap for key, hold for `desktop-move` layer.
+- `]`: tap for key, hold for `overflow` layer.
+- `-`: tap for key, hold for `desktop-move` layer.
 - `TD(1)` remains on `]`:
   - Tap `]`
-  - Hold for `desktop-move`
-  - Double-tap toggles `overflow`
+  - Hold for `overflow`
+  - Double-tap enables sticky `onehand-mirror` layer
 
 ### Mirrored direction cluster
 
@@ -43,9 +45,7 @@ On both mirrored layers, the visible direction cluster is on `, . / '`:
 - `, . / '` on `desktop-move` -> Ctrl+Alt+Left / Right / Down / Up
 
 Additional `nav` bindings:
-- `;` -> Alt+Tab
 - `Tab` -> Alt+Tab
-- right GUI-position key -> Alt+F4
 
 ### Screenshot behavior
 
@@ -58,13 +58,19 @@ Additional `nav` bindings:
 - `J + K -> Right`
 - `J + M -> Down`
 
+### Alt shortcuts on base layer
+
+- Hold `Alt` + tap `2` -> `Alt+F2`
+- Hold `Alt` + tap `4` -> `Alt+F4`
+- Hold `Alt` + tap `;` -> `Alt+Tab`
+
 ### Fn usage + Studio unlock
 
-- Layer 1 (`overflow`) still carries media/Bluetooth keys and `studio_unlock`.
+- `overflow` still carries media/Bluetooth keys and `studio_unlock`.
 
 ### Bluetooth
 
-- Profiles on layer 1 (`BT_SEL 0..3`)
+- Profiles on `overflow` (`BT_SEL 0..3`)
 - Clear bonding via `BT_CLR`
 
 ### Display / power

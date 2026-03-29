@@ -223,9 +223,9 @@
     display-name = "Double Click";
   };
 
-  m2: qmk_m2 {
+  m2: screenshot_shift_alt {
     compatible = "zmk,behavior-macro";
     #binding-cells = <0>;
-    display-name = "QMK M2 (Shift+Alt+PrintScreen)";
+    display-name = "Screenshot Shift+Alt+PrintScreen";
     bindings = <&macro_press &kp LSHIFT &kp LALT>, <&macro_tap>, <&kp PRINTSCREEN>, <&macro_release &kp LSHIFT &kp LALT>;
   };
