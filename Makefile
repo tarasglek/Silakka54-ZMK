@@ -22,6 +22,7 @@ build: build-left build-right build-reset
 west-setup:
 	mkdir -p $(ARTIFACTS_DIR) $(CACHE_DIR)/zephyr $(CACHE_DIR)/ccache
 	$(DOCKER_RUN) 'set -euo pipefail; \
+		git config --global --add safe.directory "*" || true; \
 		[ -d .west ] || west init -l config; \
 		west update --fetch-opt=--filter=tree:0; \
 		if west help 2>/dev/null | grep -q "zephyr-export"; then west zephyr-export; fi'
