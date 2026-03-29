@@ -6,7 +6,7 @@
 - [x] Task 2: Implement Docker-backed build targets (digest-pinned image + local caches)
 - [x] Task 3: Replace reusable CI workflow with repo-owned `make build` workflow
 - [x] Task 4: Document local build usage in `README.md`
-- [ ] Task 5: Validate, push branch, and poll/fix CI until green
+- [x] Task 5: Validate, push branch, and poll/fix CI until green
 
 ### Notes captured during execution
 - Docker image pin was tightened from `:stable` to immutable digest:
@@ -17,6 +17,7 @@
 - `west` setup is memoized via `.west/.setup-complete`.
 - CI run `23704747626` failed in `Build firmware` because `west zephyr-export` state was not persisted across Docker invocations; fixed by running `west zephyr-export` in each build target.
 - CI run `23704805519` succeeded for build/upload but warned that cache save failed due root-owned files; fixed by adding a workflow step to `chown` build/cache directories before post-cache save.
+- CI run `23704891170` passed with `Build firmware`, `Upload artifacts`, and cache post-step all successful.
 
 ---
 
