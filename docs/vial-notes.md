@@ -85,10 +85,11 @@ Shared visible cluster: `, . / '`
   - restrict overrides to layer 0 when the original ZMK behavior only exists on the base layer
   - leave ZMK-only actions transparent when there is no clean or trustworthy Vial export equivalent
 - The three base-layer Alt morphs are represented as left-Alt key overrides in `key_override`:
-  - `LAlt + ; -> Tab`
+  - `LAlt + LCTL_T(KC_SCOLON) -> Tab` for ZMK `&alt_semi_tab`
   - `LAlt + 2 -> F2`
   - `LAlt + 4 -> F4`
 - Because these overrides use `suppressed_mods = 0`, Alt is preserved during the replacement, matching ZMK `keep-mods` behavior.
+- The semicolon morph is attached to the Vial mod-tap keycode `LCTL_T(KC_SCOLON)`, not plain `KC_SCOLON`, because the base-layer semicolon position is itself a mod-tap in both ZMK intent and the backported Vial layout.
 - ZMK-only actions without a clean Vial equivalent are left as transparent in the export:
   - Bluetooth profile keys / `BT_CLR`
   - `studio_unlock`
@@ -101,7 +102,7 @@ Shared visible cluster: `, . / '`
   - thumb holds (`[` -> Alt, `=` -> nav, `]` -> overflow, `-` -> desktop-move)
   - mirrored direction cluster behavior
   - Alt+Tab on `Tab` in nav layer
-  - Alt+Tab on base via `Alt+;`
+  - Alt+Tab on base via `LAlt +` the semicolon mod-tap key (`LCTL_T(KC_SCOLON)`)
   - Alt+F2 / Alt+F4 on base via `Alt+2` / `Alt+4`
   - Studio unlock on layer 2
   - Bluetooth profile keys
