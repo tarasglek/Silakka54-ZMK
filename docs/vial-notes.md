@@ -2,7 +2,8 @@
 
 ## Source of truth
 
-- Vial export: `vial-export.vil` (kept in repo)
+- ZMK keymap: `config/silakka54.keymap` is the source of truth for behavior and layer intent
+- Vial export: `vial-export.vil` is a backported compatibility artifact derived from the ZMK keymap
 - Scope: reachable behavior only
 
 ## Reachable scope
@@ -11,34 +12,34 @@
 - Reachable: 0, 1, 2, 3, 4
 - Layer roles:
   - `0`: base
-  - `1`: toggle
-  - `2`: Fn/media/Bluetooth/Studio
-  - `3`: `nav`
-  - `4`: `desktop-move`
+  - `1`: `overflow`
+  - `2`: `nav`
+  - `3`: `desktop-move`
+  - `4`: `onehand-mirror`
 
 ### Tap dance
 - `TD(0)`: `PrintScreen` / `M2`
-- `TD(1)`: tap `]`, hold `MO(1)` (`overflow`), double-tap `SL(4)` (`onehand-mirror`)
+- `TD(1)`: tap `]`, hold `MO(1)` (`overflow`), double-tap `TG(4)` (`onehand-mirror`)
 
 ### Mirrored thumb behavior
-- `[` and `=`: hold for `MO(3)` (`nav`)
+- `[`: hold for `Alt`
 - `]`: hold for `MO(1)` (`overflow`)
-- `-`: hold for `MO(4)` (`desktop-move`)
+- `-`: hold for `MO(3)` (`desktop-move`)
+- `=`: hold for `MO(2)` (`nav`)
 
 ### Mirrored direction cluster
 Shared visible cluster: `, . / '`
 
 - On `nav`:
   - `,` -> Left
-  - `.` -> Down
-  - `/` -> Right
+  - `.` -> Right
+  - `/` -> Down
   - `'` -> Up
-  - `Tab` -> Alt+Tab
 
 - On `desktop-move`:
   - `,` -> Ctrl+Alt+Left
-  - `.` -> Ctrl+Alt+Down
-  - `/` -> Ctrl+Alt+Right
+  - `.` -> Ctrl+Alt+Right
+  - `/` -> Ctrl+Alt+Down
   - `'` -> Ctrl+Alt+Up
 
 ### Combos
@@ -49,15 +50,15 @@ Shared visible cluster: `, . / '`
 
 ## Vial -> ZMK behavior mapping (current)
 
-| Concept | ZMK |
+| Vial representation | ZMK |
 |---|---|
-| semicolon mod-tap (Alt morphs to Tab) | `&alt_semi_tab` |
-| `2` (Alt morphs to F2) | `&alt_2_f2` |
-| `4` (Alt morphs to F4) | `&alt_4_f4` |
-| `[` nav hold-tap | `&fn_lt 3 LBKT` |
+| key override `LAlt + ; -> Tab` | `&alt_semi_tab` |
+| key override `LAlt + 2 -> F2` | `&alt_2_f2` |
+| key override `LAlt + 4 -> F4` | `&alt_4_f4` |
+| `[` Alt hold-tap | `&mt LALT LBKT` |
 | `]` overflow hold-tap/tap-dance | `&td1` |
-| `-` desktop hold-tap | `&fn_lt 4 MINUS` |
-| `=` nav hold-tap | `&fn_lt 3 EQUAL` |
+| `-` desktop hold-tap | `&fn_lt 3 MINUS` |
+| `=` nav hold-tap | `&fn_lt 2 EQUAL` |
 | screenshot tap dance | `&td0` |
 
 ## Physical mapping notes
@@ -71,11 +72,33 @@ Shared visible cluster: `, . / '`
   - Row 4: `N M , . / Tab`
   - Thumbs: `Space - =`
 
+## Vial export backport notes
+
+- `vial-export.vil` has been updated to mirror the current reachable ZMK layers.
+- Porting strategy used for this backport:
+  - keep `config/silakka54.keymap` as the source of truth for behavior
+  - keep the existing `vial-export.vil` structure and only patch dynamic Vial data already present in the export
+  - map ZMK hold-taps to native Vial/QMK mod-tap or layer-tap entries where possible
+  - map ZMK tap-dances to Vial tap-dance entries
+  - preserve existing Vial macros for desktop/workspace movement
+  - map ZMK `mod-morph` behaviors with `keep-mods` to Vial `key_override` entries instead of combos
+  - restrict overrides to layer 0 when the original ZMK behavior only exists on the base layer
+  - leave ZMK-only actions transparent when there is no clean or trustworthy Vial export equivalent
+- The three base-layer Alt morphs are represented as left-Alt key overrides in `key_override`:
+  - `LAlt + ; -> Tab`
+  - `LAlt + 2 -> F2`
+  - `LAlt + 4 -> F4`
+- Because these overrides use `suppressed_mods = 0`, Alt is preserved during the replacement, matching ZMK `keep-mods` behavior.
+- ZMK-only actions without a clean Vial equivalent are left as transparent in the export:
+  - Bluetooth profile keys / `BT_CLR`
+  - `studio_unlock`
+- This backport should be understood as an export-level compatibility mirror, not a full Vial/QMK source port.
+
 ## Validation checklist
 
 - Hardware smoke checks:
   - base typing/mod-taps
-  - mirrored thumb holds (`[`/`=` -> nav, `]` -> overflow, `-` -> desktop-move)
+  - thumb holds (`[` -> Alt, `=` -> nav, `]` -> overflow, `-` -> desktop-move)
   - mirrored direction cluster behavior
   - Alt+Tab on `Tab` in nav layer
   - Alt+Tab on base via `Alt+;`
