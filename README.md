@@ -23,7 +23,7 @@ The keymap includes 5 active layers:
 | 1 | `overflow` | Fn/media/Bluetooth + Studio unlock |
 | 2 | `nav` | Navigation layer (arrows + Alt+Tab + Alt+F4) |
 | 3 | `desktop-move` | Desktop-move layer (Ctrl+Alt arrows) |
-| 4 | `onehand-mirror` | Sticky mirrored right-hand typing layer |
+| 4 | `onehand-mirror` | One-shot mirrored right-hand typing layer |
 
 ## Features
 
@@ -35,7 +35,7 @@ The keymap includes 5 active layers:
 - `TD(1)` remains on `]`:
   - Tap `]`
   - Hold for `overflow`
-  - Double-tap enables sticky `onehand-mirror` layer
+  - Double-tap enables one-shot `onehand-mirror` for the next keypress, then returns to base
 
 ### Mirrored direction cluster
 

@@ -19,7 +19,7 @@
 
 ### Tap dance
 - `TD(0)`: `PrintScreen` / `M2`
-- `TD(1)`: tap `]`, hold `MO(1)` (`overflow`), double-tap `TG(4)` (`onehand-mirror`)
+- `TD(1)`: tap `]`, hold `MO(1)` (`overflow`), double-tap `OSL(4)` (`onehand-mirror`, one-shot like ZMK `&sl 4`)
 
 ### Mirrored thumb behavior
 - `[`: hold for `Alt`
