@@ -471,17 +471,17 @@
       ],
       [
         "KC_TRNS",
-        "KC_TRNS",
-        "KC_TRNS",
-        "KC_TRNS",
-        "KC_TRNS",
+        "KC_MS_U",
+        "KC_BTN3",
+        "KC_BTN2",
+        "KC_BTN1",
         "KC_TRNS"
       ],
       [
         "KC_TRNS",
-        "KC_TRNS",
-        "KC_TRNS",
-        "KC_TRNS",
+        "KC_MS_D",
+        "KC_MS_R",
+        "KC_MS_L",
         "KC_TRNS",
         "KC_TRNS"
       ],

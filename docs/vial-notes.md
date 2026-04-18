@@ -46,8 +46,9 @@ Shared visible cluster: `, . / '`
   - `'` -> Ctrl+Alt+Up
 
 ### Mouse layer cluster
-Shared visible cluster on the left hand while holding `1` or `0`: `A S D F` plus `Z X C`
+Shared mirrored mouse clusters while holding `1` or `0`:
 
+Left hand:
 - `A` -> mouse up
 - `Z` -> mouse down
 - `X` -> mouse left
@@ -55,6 +56,15 @@ Shared visible cluster on the left hand while holding `1` or `0`: `A S D F` plus
 - `S` -> left button
 - `D` -> middle button
 - `F` -> right button
+
+Right hand:
+- `'` -> mouse up
+- `/` -> mouse down
+- `,` -> mouse left
+- `.` -> mouse right
+- `J` -> left button
+- `K` -> middle button
+- `L` -> right button
 
 ### Combos
 - `H + J -> Left`
@@ -102,7 +112,7 @@ Shared visible cluster on the left hand while holding `1` or `0`: `A S D F` plus
   - leave ZMK-only actions transparent when there is no clean or trustworthy Vial export equivalent
 - The base-layer `1` key is represented as `LT5(KC_1)` in the Vial export, which is a direct QMK-style layer-tap analogue for ZMK `&fn_lt 5 N1`.
 - The base-layer `0` key is represented as `LT5(KC_0)` in the Vial export, which is a direct QMK-style layer-tap analogue for ZMK `&fn_lt 5 N0`.
-- The mouse layer is represented with standard QMK/Vial mouse keycodes (`KC_MS_U`, `KC_MS_D`, `KC_MS_L`, `KC_MS_R`, `KC_BTN1`, `KC_BTN2`, `KC_BTN3`) on the matching `A/Z/X/C` and `S/D/F` positions.
+- The mouse layer is represented with standard QMK/Vial mouse keycodes (`KC_MS_U`, `KC_MS_D`, `KC_MS_L`, `KC_MS_R`, `KC_BTN1`, `KC_BTN2`, `KC_BTN3`) on the matching left-hand `A/Z/X/C` + `S/D/F` positions and mirrored right-hand `'`/`/`/`,`/`.` + `J/K/L` positions.
 - The three base-layer Alt morphs are represented as left-Alt key overrides in `key_override`:
   - `LAlt + LCTL_T(KC_SCOLON) -> Tab` for ZMK `&alt_semi_tab`
   - `LAlt + 2 -> F2`
@@ -124,6 +134,7 @@ Shared visible cluster on the left hand while holding `1` or `0`: `A S D F` plus
   - hold-taps (`1` -> mouse, `0` -> mouse, `[` -> Alt, `=` -> nav, `]` -> overflow, `-` -> desktop-move)
   - mirrored direction cluster behavior
   - mouse layer movement/buttons on `A/Z/X/C` and `S/D/F`
+  - mirrored mouse layer movement/buttons on `'`/`/`/`,`/`.` and `J/K/L`
   - Alt+Tab on `Tab` in nav layer
   - Alt+Tab on base via `LAlt +` the semicolon mod-tap key (`LCTL_T(KC_SCOLON)`)
   - Alt+F2 / Alt+F4 on base via `Alt+2` / `Alt+4`

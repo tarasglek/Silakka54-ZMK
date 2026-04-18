@@ -52,10 +52,14 @@ Additional `nav` bindings:
 
 ### Mouse layer
 
-While holding `1` or `0`, the left-hand alpha cluster becomes mouse controls:
+While holding `1` or `0`, mirrored alpha clusters become mouse controls on both halves:
 
-- `A / Z / X / C` -> Up / Down / Left / Right cursor movement
-- `S / D / F` -> Left / Middle / Right mouse button
+- Left hand:
+  - `A / Z / X / C` -> Up / Down / Left / Right cursor movement
+  - `S / D / F` -> Left / Middle / Right mouse button
+- Right hand:
+  - `'` / `/` / `,` / `.` -> Up / Down / Left / Right cursor movement
+  - `J / K / L` -> Left / Middle / Right mouse button
 
 Movement uses ZMK mouse movement bindings, so it continues while held. Mouse buttons use ZMK mouse key press behavior, so holds map to press/release semantics.
 

@@ -151,8 +151,8 @@
             bindings = <
 &trans            &trans           &trans           &trans       &trans       &trans       &trans       &trans      &trans      &trans      &trans      &trans
 &trans            &trans           &trans           &trans       &trans       &trans       &trans       &trans      &trans      &trans      &trans      &trans
-&trans            &mmv MOVE_UP     &mkp LCLK        &mkp MCLK    &mkp RCLK    &trans       &trans       &trans      &trans      &trans      &trans      &trans
-&trans            &mmv MOVE_DOWN   &mmv MOVE_LEFT   &mmv MOVE_RIGHT &trans    &trans       &trans       &trans      &trans      &trans      &trans      &trans
+&trans            &mmv MOVE_UP     &mkp LCLK        &mkp MCLK    &mkp RCLK    &trans       &trans       &mkp LCLK   &mkp MCLK   &mkp RCLK   &mmv MOVE_UP &trans
+&trans            &mmv MOVE_DOWN   &mmv MOVE_LEFT   &mmv MOVE_RIGHT &trans    &trans       &trans       &trans      &mmv MOVE_LEFT &mmv MOVE_RIGHT &mmv MOVE_DOWN &trans
                                           &trans            &trans           &trans       &trans      &trans       &trans
             >;
         };
