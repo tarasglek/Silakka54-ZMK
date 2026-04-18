@@ -19,7 +19,7 @@ jobs:
     needs: build
     steps:
       - name: Download firmware artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           path: artifacts
 
@@ -48,7 +48,7 @@ jobs:
           (cd dist && sha256sum firmware.zip > SHA256SUMS)
 
       - name: Upload packaged release artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: release-assets
           path: |
@@ -61,7 +61,7 @@ jobs:
     needs: package
     steps:
       - name: Download packaged assets
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: release-assets
           path: dist
