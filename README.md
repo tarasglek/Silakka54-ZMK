@@ -15,7 +15,7 @@ The Silakka54 is a 54-key split keyboard using a native `silakka54` ZMK shield/k
 
 ## Layers
 
-The keymap includes 5 active layers:
+The keymap includes 6 active layers:
 
 | Layer | Name | Description |
 |-------|------|-------------|
@@ -24,11 +24,13 @@ The keymap includes 5 active layers:
 | 2 | `nav` | Navigation layer (arrows + Alt+Tab + Alt+F4) |
 | 3 | `desktop-move` | Desktop-move layer (Ctrl+Alt arrows) |
 | 4 | `onehand-mirror` | One-shot mirrored right-hand typing layer |
+| 5 | `mouse` | Hold-on-`1` mouse layer for cursor movement and buttons |
 
 ## Features
 
-### Mirrored thumb layer access
+### Thumb layer access
 
+- `1`: tap for `1`, hold for the `mouse` layer.
 - `[` and `=`: tap for key, hold for `nav` layer.
 - `]`: tap for key, hold for `overflow` layer.
 - `-`: tap for key, hold for `desktop-move` layer.
@@ -46,6 +48,15 @@ On both mirrored layers, the visible direction cluster is on `, . / '`:
 
 Additional `nav` bindings:
 - `Tab` -> Alt+Tab
+
+### Mouse layer
+
+While holding `1`, the left-hand alpha cluster becomes mouse controls:
+
+- `A / Z / X / C` -> Up / Down / Left / Right cursor movement
+- `S / D / F` -> Left / Middle / Right mouse button
+
+Movement uses ZMK mouse movement bindings, so it continues while held. Mouse buttons use ZMK mouse key press behavior, so holds map to press/release semantics.
 
 ### Screenshot behavior
 

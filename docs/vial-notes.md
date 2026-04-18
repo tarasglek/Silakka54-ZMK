@@ -9,19 +9,21 @@
 ## Reachable scope
 
 ### Layers
-- Reachable: 0, 1, 2, 3, 4
+- Reachable: 0, 1, 2, 3, 4, 5
 - Layer roles:
   - `0`: base
   - `1`: `overflow`
   - `2`: `nav`
   - `3`: `desktop-move`
   - `4`: `onehand-mirror`
+  - `5`: `mouse`
 
 ### Tap dance
 - `TD(0)`: `PrintScreen` / `M2`
 - `TD(1)`: tap `]`, hold `MO(1)` (`overflow`), double-tap `OSL(4)` (`onehand-mirror`, one-shot like ZMK `&sl 4`)
 
-### Mirrored thumb behavior
+### Thumb behavior
+- `1`: hold for `MO(5)` (`mouse`) in Vial/QMK terms, matching ZMK `&fn_lt 5 N1`
 - `[`: hold for `Alt`
 - `]`: hold for `MO(1)` (`overflow`)
 - `-`: hold for `MO(3)` (`desktop-move`)
@@ -42,6 +44,17 @@ Shared visible cluster: `, . / '`
   - `/` -> Ctrl+Alt+Down
   - `'` -> Ctrl+Alt+Up
 
+### Mouse layer cluster
+Shared visible cluster on the left hand while holding `1`: `A S D F` plus `Z X C`
+
+- `A` -> mouse up
+- `Z` -> mouse down
+- `X` -> mouse left
+- `C` -> mouse right
+- `S` -> left button
+- `D` -> middle button
+- `F` -> right button
+
 ### Combos
 - `H + J -> Left`
 - `J + U -> Up`
@@ -55,6 +68,7 @@ Shared visible cluster: `, . / '`
 | key override `LAlt + ; -> Tab` | `&alt_semi_tab` |
 | key override `LAlt + 2 -> F2` | `&alt_2_f2` |
 | key override `LAlt + 4 -> F4` | `&alt_4_f4` |
+| `1` mouse layer-tap | `&fn_lt 5 N1` |
 | `[` Alt hold-tap | `&mt LALT LBKT` |
 | `]` overflow hold-tap/tap-dance | `&td1` |
 | `-` desktop hold-tap | `&fn_lt 3 MINUS` |
@@ -84,12 +98,17 @@ Shared visible cluster: `, . / '`
   - map ZMK `mod-morph` behaviors with `keep-mods` to Vial `key_override` entries instead of combos
   - restrict overrides to layer 0 when the original ZMK behavior only exists on the base layer
   - leave ZMK-only actions transparent when there is no clean or trustworthy Vial export equivalent
+- The base-layer `1` key is represented as `LT5(KC_1)` in the Vial export, which is a direct QMK-style layer-tap analogue for ZMK `&fn_lt 5 N1`.
+- The mouse layer is represented with standard QMK/Vial mouse keycodes (`KC_MS_U`, `KC_MS_D`, `KC_MS_L`, `KC_MS_R`, `KC_BTN1`, `KC_BTN2`, `KC_BTN3`) on the matching `A/Z/X/C` and `S/D/F` positions.
 - The three base-layer Alt morphs are represented as left-Alt key overrides in `key_override`:
   - `LAlt + LCTL_T(KC_SCOLON) -> Tab` for ZMK `&alt_semi_tab`
   - `LAlt + 2 -> F2`
   - `LAlt + 4 -> F4`
 - Because these overrides use `suppressed_mods = 0`, Alt is preserved during the replacement, matching ZMK `keep-mods` behavior.
 - The semicolon morph is attached to the Vial mod-tap keycode `LCTL_T(KC_SCOLON)`, not plain `KC_SCOLON`, because the base-layer semicolon position is itself a mod-tap in both ZMK intent and the backported Vial layout.
+- The Vial export is still approximate for mouse behavior:
+  - QMK/Vial mouse acceleration and repeat tuning may not exactly match ZMK `&mmv`
+  - button hold semantics are expected to map cleanly through `KC_BTN1..3`, but runtime feel can still differ from ZMK `&mkp`
 - ZMK-only actions without a clean Vial equivalent are left as transparent in the export:
   - Bluetooth profile keys / `BT_CLR`
   - `studio_unlock`
@@ -99,8 +118,9 @@ Shared visible cluster: `, . / '`
 
 - Hardware smoke checks:
   - base typing/mod-taps
-  - thumb holds (`[` -> Alt, `=` -> nav, `]` -> overflow, `-` -> desktop-move)
+  - thumb holds (`1` -> mouse, `[` -> Alt, `=` -> nav, `]` -> overflow, `-` -> desktop-move)
   - mirrored direction cluster behavior
+  - mouse layer movement/buttons on `A/Z/X/C` and `S/D/F`
   - Alt+Tab on `Tab` in nav layer
   - Alt+Tab on base via `LAlt +` the semicolon mod-tap key (`LCTL_T(KC_SCOLON)`)
   - Alt+F2 / Alt+F4 on base via `Alt+2` / `Alt+4`
