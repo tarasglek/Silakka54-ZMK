@@ -94,7 +94,7 @@
         layer_0 {
             display-name = "base";
             bindings = <
-&kp ESCAPE        &fn_lt 5 N1   &alt_2_f2   &kp N3      &alt_4_f4   &kp N5       &kp N6       &kp N7      &kp N8      &kp N9      &kp N0      &kp BACKSPACE
+&kp ESCAPE        &fn_lt 5 N1   &alt_2_f2   &kp N3      &alt_4_f4   &kp N5       &kp N6       &kp N7      &kp N8      &kp N9      &fn_lt 5 N0 &kp BACKSPACE
 &kp GRAVE         &kp Q         &kp W       &kp E       &kp R       &kp T        &kp Y        &kp U       &kp I       &kp O       &kp P       &kp BSLH
 &kp LSHIFT        &kp A         &kp S       &kp D       &kp F       &kp G        &kp H        &kp J       &kp K       &kp L       &kp SQT     &kp LGUI
 &alt_semi_tab     &kp Z         &kp X       &kp C       &kp V       &kp B        &kp N        &kp M       &kp COMMA   &kp DOT     &kp FSLH    &kp TAB

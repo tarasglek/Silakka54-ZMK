@@ -11,7 +11,7 @@ layers:
   - '7'
   - '8'
   - '9'
-  - '0'
+  - {t: '0', h: mouse}
   - BACKSPACE
   - '`'
   - Q

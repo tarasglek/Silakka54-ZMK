@@ -24,13 +24,14 @@ The keymap includes 6 active layers:
 | 2 | `nav` | Navigation layer (arrows + Alt+Tab + Alt+F4) |
 | 3 | `desktop-move` | Desktop-move layer (Ctrl+Alt arrows) |
 | 4 | `onehand-mirror` | One-shot mirrored right-hand typing layer |
-| 5 | `mouse` | Hold-on-`1` mouse layer for cursor movement and buttons |
+| 5 | `mouse` | Hold-on-`1`/`0` mouse layer for cursor movement and buttons |
 
 ## Features
 
-### Thumb layer access
+### Hold-tap layer access
 
 - `1`: tap for `1`, hold for the `mouse` layer.
+- `0`: tap for `0`, hold for the `mouse` layer.
 - `[` and `=`: tap for key, hold for `nav` layer.
 - `]`: tap for key, hold for `overflow` layer.
 - `-`: tap for key, hold for `desktop-move` layer.
@@ -51,7 +52,7 @@ Additional `nav` bindings:
 
 ### Mouse layer
 
-While holding `1`, the left-hand alpha cluster becomes mouse controls:
+While holding `1` or `0`, the left-hand alpha cluster becomes mouse controls:
 
 - `A / Z / X / C` -> Up / Down / Left / Right cursor movement
 - `S / D / F` -> Left / Middle / Right mouse button

@@ -1,10 +1,10 @@
-# Mouse Layer on Hold-1 Implementation Plan
+# Mouse Layer on Hold-1/0 Implementation Plan
 
 > **For Claude:** REQUIRED SUB-SKILL: Use superpowers:executing-plans to implement this plan task-by-task.
 
-**Goal:** Make `1` act as tap=`1`, hold=`mouse layer`, with `A/Z/X/C` as mouse movement and `S/D/F` as holdable mouse buttons.
+**Goal:** Make both `1` and `0` act as tap=digit, hold=`mouse layer`, with `A/Z/X/C` as mouse movement and `S/D/F` as holdable mouse buttons.
 
-**Architecture:** Add a dedicated mouse layer in the ZMK keymap and replace the base-layer `1` binding with a layer-tap behavior. Use ZMK pointing bindings for continuous movement and button press/release behavior, then update both the human-facing docs and the Vial/QMK compatibility artifacts to match as closely as possible.
+**Architecture:** Add a dedicated mouse layer in the ZMK keymap and replace the base-layer `1` and `0` bindings with layer-tap behavior. Use ZMK pointing bindings for continuous movement and button press/release behavior, then update both the human-facing docs and the Vial/QMK compatibility artifacts to match as closely as possible.
 
 **Tech Stack:** ZMK device-tree keymap config, ZMK pointing bindings, Markdown docs, Vial export JSON
 
@@ -32,7 +32,7 @@ Confirm the intended mouse layer mapping in notes:
 - `D` middle button
 - `F` right button
 
-### Task 2: Write the failing structural test for hold-on-`1`
+### Task 2: Write the failing structural test for hold-on-`1`/`0`
 
 **Files:**
 - Modify: `config/silakka54.keymap`
@@ -46,26 +46,30 @@ Expected: the base layer still contains a plain `&kp N1` binding.
 
 The target state is:
 - base-layer `1` is no longer plain `&kp N1`
-- base-layer `1` becomes a layer-tap to a new mouse layer
+- base-layer `0` is no longer plain `&kp N0`
+- base-layer `1` becomes a layer-tap to the mouse layer
+- base-layer `0` becomes a layer-tap to the mouse layer
 - a new mouse layer exists with the requested mappings
 
-### Task 3: Implement the new mouse layer entry key
+### Task 3: Implement the new mouse layer entry keys
 
 **Files:**
 - Modify: `config/silakka54.keymap`
 
 **Step 1: Write the minimal implementation**
 
-Replace the base-layer `1` binding with a layer-tap behavior so:
-- tap -> `1`
-- hold -> mouse layer
+Replace the base-layer `1` and `0` bindings with layer-tap behavior so:
+- tap `1` -> `1`
+- hold `1` -> mouse layer
+- tap `0` -> `0`
+- hold `0` -> mouse layer
 
 Reuse an existing hold-tap behavior if appropriate, or add the smallest new helper behavior needed.
 
 **Step 2: Verify the structural change**
 
-Run: `rg -n "N1|layer_mouse|mouse" config/silakka54.keymap`
-Expected: the plain base `&kp N1` is gone or replaced at that position, and the new mouse layer is present.
+Run: `rg -n "N1|N0|layer_mouse|mouse" config/silakka54.keymap`
+Expected: the plain base `&kp N1` and `&kp N0` are gone or replaced at those positions, and the new mouse layer is present.
 
 ### Task 4: Implement the mouse layer mappings
 
@@ -106,7 +110,7 @@ Expected: all requested mappings are visible on the new layer.
 **Step 1: Add the new layer description to README**
 
 Document:
-- `1` tap/hold behavior
+- `1` and `0` tap/hold behavior
 - the mouse layer purpose
 - the `A/Z/X/C` movement cluster
 - the `S/D/F` button cluster
@@ -137,7 +141,7 @@ Expected: locate the existing base-layer `1` slot and any currently represented 
 **Step 2: Patch the export to mirror the new reachable behavior as closely as possible**
 
 Update `vial-export.vil` so it reflects:
-- base `1` as a layer-tap to the mouse layer if supported by the export model
+- base `1` and `0` as layer-taps to the mouse layer if supported by the export model
 - the mouse layer positions for `A/Z/X/C` and `S/D/F`
 - any required Vial macro, tap-dance, or transparent fallback for behaviors that do not have a trustworthy native export equivalent
 
@@ -175,13 +179,14 @@ Expected: the firmware builds successfully.
 Confirm manually:
 - tap `1` types `1`
 - hold `1` enables mouse layer while held
+- hold `0` enables mouse layer while held
 - `A/Z/X/C` repeat movement while held
 - `S/D/F` hold and release mouse buttons correctly
 
 **Step 4: Sanity-check the Vial artifact**
 
 Confirm manually or by inspection:
-- the `1` position and mouse layer positions are updated in `vial-export.vil`
+- the `1`/`0` positions and mouse layer positions are updated in `vial-export.vil`
 - any unsupported behavior is called out in `docs/vial-notes.md`
 - no unrelated Vial layers/macros were changed accidentally
 
@@ -189,5 +194,5 @@ Confirm manually or by inspection:
 
 ```bash
 git add config/silakka54.keymap README.md docs/vial-notes.md vial-export.vil docs/plans/2026-04-18-mouse-layer-design.md docs/plans/2026-04-18-mouse-layer.md
-git commit -m "feat(keymap): add hold-1 mouse layer"
+git commit -m "feat(keymap): add hold-1/0 mouse layer"
 ```

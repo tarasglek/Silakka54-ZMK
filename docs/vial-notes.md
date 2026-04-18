@@ -22,8 +22,9 @@
 - `TD(0)`: `PrintScreen` / `M2`
 - `TD(1)`: tap `]`, hold `MO(1)` (`overflow`), double-tap `OSL(4)` (`onehand-mirror`, one-shot like ZMK `&sl 4`)
 
-### Thumb behavior
+### Hold-tap behavior
 - `1`: hold for `MO(5)` (`mouse`) in Vial/QMK terms, matching ZMK `&fn_lt 5 N1`
+- `0`: hold for `MO(5)` (`mouse`) in Vial/QMK terms, matching ZMK `&fn_lt 5 N0`
 - `[`: hold for `Alt`
 - `]`: hold for `MO(1)` (`overflow`)
 - `-`: hold for `MO(3)` (`desktop-move`)
@@ -45,7 +46,7 @@ Shared visible cluster: `, . / '`
   - `'` -> Ctrl+Alt+Up
 
 ### Mouse layer cluster
-Shared visible cluster on the left hand while holding `1`: `A S D F` plus `Z X C`
+Shared visible cluster on the left hand while holding `1` or `0`: `A S D F` plus `Z X C`
 
 - `A` -> mouse up
 - `Z` -> mouse down
@@ -69,6 +70,7 @@ Shared visible cluster on the left hand while holding `1`: `A S D F` plus `Z X C
 | key override `LAlt + 2 -> F2` | `&alt_2_f2` |
 | key override `LAlt + 4 -> F4` | `&alt_4_f4` |
 | `1` mouse layer-tap | `&fn_lt 5 N1` |
+| `0` mouse layer-tap | `&fn_lt 5 N0` |
 | `[` Alt hold-tap | `&mt LALT LBKT` |
 | `]` overflow hold-tap/tap-dance | `&td1` |
 | `-` desktop hold-tap | `&fn_lt 3 MINUS` |
@@ -99,6 +101,7 @@ Shared visible cluster on the left hand while holding `1`: `A S D F` plus `Z X C
   - restrict overrides to layer 0 when the original ZMK behavior only exists on the base layer
   - leave ZMK-only actions transparent when there is no clean or trustworthy Vial export equivalent
 - The base-layer `1` key is represented as `LT5(KC_1)` in the Vial export, which is a direct QMK-style layer-tap analogue for ZMK `&fn_lt 5 N1`.
+- The base-layer `0` key is represented as `LT5(KC_0)` in the Vial export, which is a direct QMK-style layer-tap analogue for ZMK `&fn_lt 5 N0`.
 - The mouse layer is represented with standard QMK/Vial mouse keycodes (`KC_MS_U`, `KC_MS_D`, `KC_MS_L`, `KC_MS_R`, `KC_BTN1`, `KC_BTN2`, `KC_BTN3`) on the matching `A/Z/X/C` and `S/D/F` positions.
 - The three base-layer Alt morphs are represented as left-Alt key overrides in `key_override`:
   - `LAlt + LCTL_T(KC_SCOLON) -> Tab` for ZMK `&alt_semi_tab`
@@ -118,7 +121,7 @@ Shared visible cluster on the left hand while holding `1`: `A S D F` plus `Z X C
 
 - Hardware smoke checks:
   - base typing/mod-taps
-  - thumb holds (`1` -> mouse, `[` -> Alt, `=` -> nav, `]` -> overflow, `-` -> desktop-move)
+  - hold-taps (`1` -> mouse, `0` -> mouse, `[` -> Alt, `=` -> nav, `]` -> overflow, `-` -> desktop-move)
   - mirrored direction cluster behavior
   - mouse layer movement/buttons on `A/Z/X/C` and `S/D/F`
   - Alt+Tab on `Tab` in nav layer
