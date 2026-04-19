@@ -61,7 +61,7 @@ While holding `1` or `0`, mirrored alpha clusters become mouse controls on both 
   - `'` / `/` / `,` / `.` -> Up / Down / Left / Right cursor movement
   - `J / K / L` -> Left / Middle / Right mouse button
 
-Movement uses ZMK mouse movement bindings, so it continues while held. Mouse buttons use ZMK mouse key press behavior, so holds map to press/release semantics.
+Movement uses ZMK mouse movement bindings, so it continues while held. The move curve is tuned for a precise start that ramps toward a faster top speed after roughly 300ms (`ZMK_POINTING_DEFAULT_MOVE_VAL=1400`, `&mmv` acceleration exponent `2`, `delay-ms=0`). Mouse buttons use ZMK mouse key press behavior, so holds map to press/release semantics.
 
 ### Screenshot behavior
 

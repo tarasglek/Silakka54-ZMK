@@ -120,7 +120,8 @@ Right hand:
 - Because these overrides use `suppressed_mods = 0`, Alt is preserved during the replacement, matching ZMK `keep-mods` behavior.
 - The semicolon morph is attached to the Vial mod-tap keycode `LCTL_T(KC_SCOLON)`, not plain `KC_SCOLON`, because the base-layer semicolon position is itself a mod-tap in both ZMK intent and the backported Vial layout.
 - The Vial export is still approximate for mouse behavior:
-  - QMK/Vial mouse acceleration and repeat tuning may not exactly match ZMK `&mmv`
+  - the ZMK source of truth now uses `ZMK_POINTING_DEFAULT_MOVE_VAL=1400` plus `&mmv { time-to-max-speed-ms = <300>; acceleration-exponent = <2>; delay-ms = <0>; }`
+  - QMK/Vial mouse acceleration and repeat tuning may not exactly match that ZMK `&mmv` curve or its roughly-300ms precise-to-fast ramp
   - button hold semantics are expected to map cleanly through `KC_BTN1..3`, but runtime feel can still differ from ZMK `&mkp`
 - ZMK-only actions without a clean Vial equivalent are left as transparent in the export:
   - Bluetooth profile keys / `BT_CLR`

@@ -2,13 +2,28 @@
 
 > **For Claude:** REQUIRED SUB-SKILL: Use superpowers:executing-plans to implement this plan task-by-task.
 
-**Goal:** Make both `1` and `0` act as tap=digit, hold=`mouse layer`, with mirrored mouse controls on both halves: `A/Z/X/C` + `S/D/F` on the left and `'`/`/`/`,`/`.` + `J/K/L` on the right.
+**Goal:** Make both `1` and `0` act as tap=digit, hold=`mouse layer`, with mirrored mouse controls on both halves: `A/Z/X/C` + `S/D/F` on the left and `'`/`/`/`,`/`.` + `J/K/L` on the right, and tune mouse movement to start precise and ramp to fast mode after about 300ms.
 
-**Architecture:** Keep the existing `1`/`0` layer-tap entry points and expand the dedicated mouse layer so it exposes the same movement/button behavior on both halves. Use ZMK pointing bindings for continuous movement and button press/release behavior, then update the human-facing docs, generated keymap docs, and Vial/QMK compatibility artifacts to match as closely as possible.
+**Architecture:** Keep the existing `1`/`0` layer-tap entry points and expand the dedicated mouse layer so it exposes the same movement/button behavior on both halves. Use ZMK pointing bindings for continuous movement and button press/release behavior, and tune the stock `&mmv` acceleration curve instead of adding a custom multi-stage mouse mode: override the default move magnitude to `1400`, keep `delay-ms = <0>`, and use `time-to-max-speed-ms = <300>` with `acceleration-exponent = <2>` so short holds stay more precise while longer holds ramp into a faster cursor speed. Then update the human-facing docs, generated keymap docs, and Vial/QMK compatibility artifacts to match as closely as possible.
 
 **Tech Stack:** ZMK device-tree keymap config, ZMK pointing bindings, Markdown docs, Vial export JSON
 
+**Current repo state:** The structural mouse-layer work is already partially landed in the current branch history (`34005c9`, `c14e84e`): `1`/`0` already act as mouse-layer taps, the mirrored mouse bindings already exist, and the README/Vial artifacts were already updated once. Treat this plan as the canonical follow-up for the movement-tuning pass and for re-validating/syncing the docs and export artifacts after that tuning work. In practice, Tasks 2, 3, 5, 6, and 7 are mostly structural re-verification against the already-landed layout, while Task 4 is the main new implementation delta.
+
 ---
+
+## Execution checklist
+
+- [x] Confirm existing ZMK pointing bindings and target mirrored mapping
+- [x] Verify `1`/`0` hold-tap structure is present
+- [x] Add mouse movement tuning (`ZMK_POINTING_DEFAULT_MOVE_VAL=1400`, `&mmv` 300ms ramp)
+- [x] Re-verify mirrored mouse layer mappings
+- [x] Sync README wording with the tuned mouse behavior
+- [x] Sync `docs/vial-notes.md` with Vial/QMK approximation limits
+- [x] Re-check `vial-export.vil` against the intended reachable behavior
+- [x] Regenerate `docs/generated/silakka54.yaml` and `docs/generated/silakka54.svg`
+- [x] Verify diff and run `make build`
+- [ ] Record any remaining manual hardware checks
 
 ### Task 1: Confirm the exact ZMK mouse bindings already available in this repo
 
@@ -80,7 +95,30 @@ Reuse an existing hold-tap behavior if appropriate, or add the smallest new help
 Run: `rg -n "N1|N0|layer_mouse|mouse" config/silakka54.keymap`
 Expected: the plain base `&kp N1` and `&kp N0` are gone or replaced at those positions, and the new mouse layer is present.
 
-### Task 4: Implement the mouse layer mappings
+### Task 4: Tune the mouse movement curve for precise-then-fast behavior
+
+**Files:**
+- Modify: `config/silakka54.keymap`
+
+**Step 1: Override the default max movement value before including ZMK pointing defines**
+
+Set the mouse-move default magnitude to `1400` so the eventual top speed is meaningfully faster than the ZMK default of `600`.
+
+**Step 2: Configure `&mmv` for a 300ms delayed-turbo ramp**
+
+Add or update an `&mmv` node so it uses:
+- `time-to-max-speed-ms = <300>`
+- `acceleration-exponent = <2>`
+- `delay-ms = <0>`
+
+This should make short holds feel more precise while longer holds ramp into a faster movement mode.
+
+**Step 3: Verify the tuning is present**
+
+Run: `rg -n "ZMK_POINTING_DEFAULT_MOVE_VAL|time-to-max-speed-ms|acceleration-exponent|delay-ms|&mmv" config/silakka54.keymap`
+Expected: the keymap shows the `1400` move value override and the `&mmv` tuning block with the 300ms ramp.
+
+### Task 5: Implement the mouse layer mappings
 
 **Files:**
 - Modify: `config/silakka54.keymap`
@@ -121,7 +159,7 @@ Run a targeted search after implementation, for example:
 `rg -n "layer_mouse|mkp|mmv|MOVE_UP|MOVE_DOWN|MOVE_LEFT|MOVE_RIGHT|LCLK|MCLK|RCLK" config/silakka54.keymap`
 Expected: all requested mirrored mappings are visible on the new layer.
 
-### Task 5: Update README and Vial notes
+### Task 6: Update README and Vial notes
 
 **Files:**
 - Modify: `README.md`
@@ -134,21 +172,22 @@ Document:
 - the mouse layer purpose
 - the left-hand `A/Z/X/C` movement and `S/D/F` button cluster
 - the right-hand `'`/`/`/`,`/`.` movement and `J/K/L` button cluster
+- that mouse movement now starts precise and ramps to a faster top speed after roughly 300ms
 
 **Step 2: Update Vial/QMK compatibility notes**
 
 Document in `docs/vial-notes.md`:
 - how the mirrored ZMK mouse layer is represented in `vial-export.vil`
 - whether the hold-on-`1`/`0` layer-taps can be represented directly
-- whether mouse movement and mouse button hold behavior are fully representable in the export
+- whether mouse movement acceleration/timing and mouse button hold behavior are fully representable in the export
 - any ZMK-only behavior that must remain approximate or transparent in Vial
 
 **Step 3: Verify docs match implementation**
 
-Run: `rg -n "mouse layer|A/Z/X/C|S/D/F|J/K/L|tap.*1|tap.*0|hold.*mouse|Vial|QMK|vial-export" README.md docs/vial-notes.md`
-Expected: README and Vial notes reflect the mirrored behavior and any export caveats.
+Run: `rg -n "mouse layer|A/Z/X/C|S/D/F|J/K/L|300ms|precise|fast|tap.*1|tap.*0|hold.*mouse|Vial|QMK|vial-export" README.md docs/vial-notes.md`
+Expected: README and Vial notes reflect the mirrored behavior, the 300ms acceleration ramp, and any export caveats.
 
-### Task 6: Update the Vial export artifact
+### Task 7: Update the Vial export artifact
 
 **Files:**
 - Modify: `vial-export.vil`
@@ -165,6 +204,8 @@ Update `vial-export.vil` so it reflects:
 - the mouse layer positions for both left and right mirrored clusters
 - any required Vial macro, tap-dance, or transparent fallback for behaviors that do not have a trustworthy native export equivalent
 
+Do not try to encode ZMK-specific acceleration timing in the Vial export unless the model can represent it honestly; document the limitation instead.
+
 Prefer a conservative export:
 - represent only behavior the Vial/QMK artifact can honestly express
 - leave unsupported ZMK-only behavior transparent or documented as approximate
@@ -174,7 +215,7 @@ Prefer a conservative export:
 Run: `rg -n "KC_1|LT|MO\(|KC_MS_|MS_|BTN|QMK|Vial" vial-export.vil docs/vial-notes.md`
 Expected: the export and notes show the mirrored mouse-layer-related changes or explicitly document limitations.
 
-### Task 7: Verify the change before claiming completion
+### Task 8: Verify the change before claiming completion
 
 **Files:**
 - Modify: `config/silakka54.keymap`
@@ -202,8 +243,8 @@ Confirm manually:
 - tap `1` types `1`
 - hold `1` enables mouse layer while held
 - hold `0` enables mouse layer while held
-- `A/Z/X/C` repeat movement while held
-- `'`/`/`/`,`/`.` repeat movement while held
+- `A/Z/X/C` start with precise movement and ramp to a faster top speed after about 300ms
+- `'`/`/`/`,`/`.` start with precise movement and ramp to a faster top speed after about 300ms
 - `S/D/F` hold and release mouse buttons correctly
 - `J/K/L` hold and release mouse buttons correctly
 
