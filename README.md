@@ -15,7 +15,7 @@ The Silakka54 is a 54-key split keyboard using a native `silakka54` ZMK shield/k
 
 ## Layers
 
-The keymap includes 6 active layers:
+The keymap includes 7 active layers:
 
 | Layer | Name | Description |
 |-------|------|-------------|
@@ -25,6 +25,7 @@ The keymap includes 6 active layers:
 | 3 | `desktop-move` | Desktop-move layer (Ctrl+Alt arrows) |
 | 4 | `onehand-mirror` | One-shot mirrored right-hand typing layer |
 | 5 | `mouse` | Hold-on-`1`/`0` mouse layer for cursor movement and buttons |
+| 6 | `scroll` | Hold-on-`2`/`9` scroll layer with mirrored wheel controls |
 
 ## Features
 
@@ -32,6 +33,8 @@ The keymap includes 6 active layers:
 
 - `1`: tap for `1`, hold for the `mouse` layer.
 - `0`: tap for `0`, hold for the `mouse` layer.
+- `2`: tap for `2` (still `Alt+F2` when `Alt` is held), hold for the `scroll` layer.
+- `9`: tap for `9`, hold for the `scroll` layer.
 - `[` and `=`: tap for key, hold for `nav` layer.
 - `]`: tap for key, hold for `overflow` layer.
 - `-`: tap for key, hold for `desktop-move` layer.
@@ -50,7 +53,7 @@ On both mirrored layers, the visible direction cluster is on `, . / '`:
 Additional `nav` bindings:
 - `Tab` -> Alt+Tab
 
-### Mouse layer
+### Mouse and scroll layers
 
 While holding `1` or `0`, mirrored alpha clusters become mouse controls on both halves:
 
@@ -61,7 +64,18 @@ While holding `1` or `0`, mirrored alpha clusters become mouse controls on both 
   - `'` / `/` / `,` / `.` -> Up / Down / Left / Right cursor movement
   - `J / K / L` -> Left / Middle / Right mouse button
 
-Movement uses ZMK mouse movement bindings, so it continues while held. The move curve is tuned for a precise start that ramps toward a faster top speed after roughly 300ms (`ZMK_POINTING_DEFAULT_MOVE_VAL=1400`, `&mmv` acceleration exponent `2`, `delay-ms=0`). Mouse buttons use ZMK mouse key press behavior, so holds map to press/release semantics.
+Mouse movement uses ZMK mouse movement bindings, so it continues while held. The move curve is tuned for a precise start that ramps toward a faster top speed after roughly 300ms (`ZMK_POINTING_DEFAULT_MOVE_VAL=1400`, `&mmv` acceleration exponent `2`, `time-to-max-speed-ms=300`, `delay-ms=0`). Mouse buttons use ZMK mouse key press behavior, so holds map to press/release semantics.
+
+While holding `2` or `9`, the same mirrored physical clusters become scroll controls:
+
+- Left hand:
+  - `A / Z / X / C` -> Scroll Up / Down / Left / Right
+  - `S / D / F` -> Left / Middle / Right mouse button
+- Right hand:
+  - `'` / `/` / `,` / `.` -> Scroll Up / Down / Left / Right
+  - `J / K / L` -> Left / Middle / Right mouse button
+
+Scroll uses ZMK mouse scroll bindings on the same physical shape as the mouse layer. It repeats while held, but keeps constant-speed behavior (`&msc` configured without a ramp) instead of the mouse layer's precise-then-fast acceleration curve.
 
 ### Screenshot behavior
 

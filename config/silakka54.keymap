@@ -5,8 +5,14 @@
 #include <dt-bindings/zmk/pointing.h>
 
 &mmv {
-    time-to-max-speed-ms = <600>;
+    time-to-max-speed-ms = <300>;
     acceleration-exponent = <2>;
+    delay-ms = <0>;
+};
+
+&msc {
+    time-to-max-speed-ms = <0>;
+    acceleration-exponent = <0>;
     delay-ms = <0>;
 };
 
@@ -45,6 +51,15 @@
             label = "ALT_4_F4";
             #binding-cells = <0>;
             bindings = <&kp N4>, <&kp F4>;
+            mods = <(MOD_LALT|MOD_RALT)>;
+            keep-mods = <(MOD_LALT|MOD_RALT)>;
+        };
+
+        scroll_2_lt: scroll_2_layer_tap {
+            compatible = "zmk,behavior-mod-morph";
+            label = "SCROLL_2_LAYER_TAP";
+            #binding-cells = <0>;
+            bindings = <&fn_lt 6 N2>, <&kp F2>;
             mods = <(MOD_LALT|MOD_RALT)>;
             keep-mods = <(MOD_LALT|MOD_RALT)>;
         };
@@ -101,7 +116,7 @@
         layer_0 {
             display-name = "base";
             bindings = <
-&kp ESCAPE        &fn_lt 5 N1   &alt_2_f2   &kp N3      &alt_4_f4   &kp N5       &kp N6       &kp N7      &kp N8      &kp N9      &fn_lt 5 N0 &kp BACKSPACE
+&kp ESCAPE        &fn_lt 5 N1   &scroll_2_lt &kp N3      &alt_4_f4   &kp N5       &kp N6       &kp N7      &kp N8      &fn_lt 6 N9 &fn_lt 5 N0 &kp BACKSPACE
 &kp GRAVE         &kp Q         &kp W       &kp E       &kp R       &kp T        &kp Y        &kp U       &kp I       &kp O       &kp P       &kp BSLH
 &kp LSHIFT        &kp A         &kp S       &kp D       &kp F       &kp G        &kp H        &kp J       &kp K       &kp L       &kp SQT     &kp LGUI
 &alt_semi_tab     &kp Z         &kp X       &kp C       &kp V       &kp B        &kp N        &kp M       &kp COMMA   &kp DOT     &kp FSLH    &kp TAB
@@ -160,6 +175,17 @@
 &trans            &trans           &trans           &trans       &trans       &trans       &trans       &trans      &trans      &trans      &trans      &trans
 &trans            &mmv MOVE_UP     &mkp LCLK        &mkp MCLK    &mkp RCLK    &trans       &trans       &mkp LCLK   &mkp MCLK   &mkp RCLK   &mmv MOVE_UP &trans
 &trans            &mmv MOVE_DOWN   &mmv MOVE_LEFT   &mmv MOVE_RIGHT &trans    &trans       &trans       &trans      &mmv MOVE_LEFT &mmv MOVE_RIGHT &mmv MOVE_DOWN &trans
+                                          &trans            &trans           &trans       &trans      &trans       &trans
+            >;
+        };
+
+        layer_scroll {
+            display-name = "scroll";
+            bindings = <
+&trans            &trans           &trans           &trans       &trans       &trans       &trans       &trans      &trans      &trans      &trans      &trans
+&trans            &trans           &trans           &trans       &trans       &trans       &trans       &trans      &trans      &trans      &trans      &trans
+&trans            &msc SCRL_UP     &mkp LCLK        &mkp MCLK    &mkp RCLK    &trans       &trans       &mkp LCLK   &mkp MCLK   &mkp RCLK   &msc SCRL_UP &trans
+&trans            &msc SCRL_DOWN   &msc SCRL_LEFT   &msc SCRL_RIGHT &trans    &trans       &trans       &trans      &msc SCRL_LEFT &msc SCRL_RIGHT &msc SCRL_DOWN &trans
                                           &trans            &trans           &trans       &trans      &trans       &trans
             >;
         };

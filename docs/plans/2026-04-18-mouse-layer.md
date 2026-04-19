@@ -2,30 +2,33 @@
 
 > **For Claude:** REQUIRED SUB-SKILL: Use superpowers:executing-plans to implement this plan task-by-task.
 
-**Goal:** Make both `1` and `0` act as tap=digit, hold=`mouse layer`, with mirrored mouse controls on both halves: `A/Z/X/C` + `S/D/F` on the left and `'`/`/`/`,`/`.` + `J/K/L` on the right, and tune mouse movement to start precise and ramp to fast mode after about 300ms.
+**Goal:** Keep `1` and `0` as tap=digit, hold=`mouse layer`, and add `2` and `9` as tap=digit, hold=`scroll layer`, with mirrored controls on both halves. The mouse layer keeps `A/Z/X/C` + `S/D/F` on the left and `'`/`/`/`,`/`.` + `J/K/L` on the right for movement/buttons, while the scroll layer reuses the same physical movement clusters for scroll up/down/left/right and keeps the same button keys. Mouse movement should stay precise then ramp fast after about 300ms; scroll should stay at a constant speed.
 
-**Architecture:** Keep the existing `1`/`0` layer-tap entry points and expand the dedicated mouse layer so it exposes the same movement/button behavior on both halves. Use ZMK pointing bindings for continuous movement and button press/release behavior, and tune the stock `&mmv` acceleration curve instead of adding a custom multi-stage mouse mode: override the default move magnitude to `1400`, keep `delay-ms = <0>`, and use `time-to-max-speed-ms = <300>` with `acceleration-exponent = <2>` so short holds stay more precise while longer holds ramp into a faster cursor speed. Then update the human-facing docs, generated keymap docs, and Vial/QMK compatibility artifacts to match as closely as possible.
+**Architecture:** Keep the existing `1`/`0` layer-tap entry points for the mouse layer and add parallel `2`/`9` layer-tap entry points for a new scroll layer. Reuse the dedicated mirrored mouse layer for continuous movement and mouse-button press/release behavior. Add a separate mirrored scroll layer that uses ZMK scroll bindings on the same physical movement keys while keeping `S/D/F` and `J/K/L` as mouse buttons. Continue to tune the stock `&mmv` acceleration curve instead of adding a custom multi-stage mouse mode: override the default move magnitude to `1400`, keep `delay-ms = <0>`, and use `time-to-max-speed-ms = <300>` with `acceleration-exponent = <2>` so short holds stay more precise while longer holds ramp into a faster cursor speed. Keep scroll speed constant rather than ramped. Then update the human-facing docs, generated keymap docs, and Vial/QMK compatibility artifacts to match as closely as possible, explicitly syncing mouse timing changes into the Vial export notes.
 
 **Tech Stack:** ZMK device-tree keymap config, ZMK pointing bindings, Markdown docs, Vial export JSON
 
-**Current repo state:** The structural mouse-layer work is already partially landed in the current branch history (`34005c9`, `c14e84e`): `1`/`0` already act as mouse-layer taps, the mirrored mouse bindings already exist, and the README/Vial artifacts were already updated once. Treat this plan as the canonical follow-up for the movement-tuning pass and for re-validating/syncing the docs and export artifacts after that tuning work. In practice, Tasks 2, 3, 5, 6, and 7 are mostly structural re-verification against the already-landed layout, while Task 4 is the main new implementation delta.
+**Current repo state:** The structural mouse-layer work is already partially landed in the current branch history (`34005c9`, `c14e84e`, `4724b61`, `0325998`): `1`/`0` already act as mouse-layer taps, the mirrored mouse bindings already exist, and mouse movement tuning plus README/Vial notes were already updated once. Treat this plan as the canonical follow-up for adding the parallel scroll layer on `2`/`9` and for re-validating/syncing the docs and export artifacts after that change.
 
 ---
 
 ## Execution checklist
 
-- [x] Confirm existing ZMK pointing bindings and target mirrored mapping
-- [x] Verify `1`/`0` hold-tap structure is present
-- [x] Add mouse movement tuning (`ZMK_POINTING_DEFAULT_MOVE_VAL=1400`, `&mmv` 300ms ramp)
-- [x] Re-verify mirrored mouse layer mappings
-- [x] Sync README wording with the tuned mouse behavior
-- [x] Sync `docs/vial-notes.md` with Vial/QMK approximation limits
+- [x] Confirm existing ZMK mouse and scroll bindings and target mirrored mapping
+- [x] Verify `1`/`0` mouse-layer hold-tap structure is present
+- [x] Add `2`/`9` hold-tap entry points for the scroll layer
+- [x] Add mirrored scroll bindings on `A/Z/X/C` and `'`/`/`/`,`/`.`
+- [x] Keep `S/D/F` and `J/K/L` as mouse buttons on the scroll layer
+- [x] Keep mouse timing tuned and scroll speed constant
+- [x] Sync README wording with the mouse + scroll behavior
+- [x] Sync `docs/vial-notes.md` with scroll-layer and export approximation limits
+- [x] Sync mouse timing changes into the Vial export/docs notes every time `ZMK_POINTING_DEFAULT_MOVE_VAL` or `&mmv` tuning changes
 - [x] Re-check `vial-export.vil` against the intended reachable behavior
 - [x] Regenerate `docs/generated/silakka54.yaml` and `docs/generated/silakka54.svg`
 - [x] Verify diff and run `make build`
-- [ ] Record any remaining manual hardware checks
+- [x] Record any remaining manual hardware checks (manual on-device smoke test still pending)
 
-### Task 1: Confirm the exact ZMK mouse bindings already available in this repo
+### Task 1: Confirm the exact ZMK mouse and scroll bindings already available in this repo
 
 **Files:**
 - Read: `config/silakka54.keymap`
@@ -33,131 +36,127 @@
 
 **Step 1: Inspect existing pointing references**
 
-Run: `rg -n "mkp|mmv|msc|pointing|LCLK|MCLK|RCLK" config`
-Expected: find any existing pointing-related bindings or confirm only the include is present.
+Run: `rg -n "mkp|mmv|msc|pointing|LCLK|MCLK|RCLK|MOVE_|SCRL_|WHEEL" config`
+Expected: find any existing pointing- or scrolling-related bindings or confirm only the include is present.
 
 **Step 2: Record the target mapping**
 
-Confirm the intended mouse layer mapping in notes:
-- left hand:
-  - `A` up
-  - `Z` down
-  - `X` left
-  - `C` right
-  - `S` left button
-  - `D` middle button
-  - `F` right button
-- right hand:
-  - `'` up
-  - `/` down
-  - `,` left
-  - `.` right
-  - `J` left button
-  - `K` middle button
-  - `L` right button
+Confirm the intended layer mappings in notes:
+- mouse layer
+  - left hand: `A` up, `Z` down, `X` left, `C` right, `S/D/F` = left/middle/right button
+  - right hand: `'` up, `/` down, `,` left, `.` right, `J/K/L` = left/middle/right button
+- scroll layer
+  - left hand: `A` scroll up, `Z` scroll down, `X` scroll left, `C` scroll right, `S/D/F` = left/middle/right button
+  - right hand: `'` scroll up, `/` scroll down, `,` scroll left, `.` scroll right, `J/K/L` = left/middle/right button
 
-### Task 2: Write the failing structural test for hold-on-`1`/`0`
+### Task 2: Write the failing structural test for hold-on-`2`/`9`
 
 **Files:**
 - Modify: `config/silakka54.keymap`
 
-**Step 1: Verify the old base binding still exists**
+**Step 1: Verify the old base bindings still exist**
 
-Run: `rg -n "&kp N1" config/silakka54.keymap`
-Expected: the base layer still contains a plain `&kp N1` binding.
+Run: `rg -n "&kp N2|&kp N9" config/silakka54.keymap`
+Expected: the base layer still contains plain `&kp N2` and `&kp N9` bindings.
 
 **Step 2: Define the failing expectation**
 
 The target state is:
-- base-layer `1` is no longer plain `&kp N1`
-- base-layer `0` is no longer plain `&kp N0`
-- base-layer `1` becomes a layer-tap to the mouse layer
-- base-layer `0` becomes a layer-tap to the mouse layer
-- a mouse layer exists with the requested mirrored left/right mappings
+- base-layer `2` is no longer plain `&kp N2`
+- base-layer `9` is no longer plain `&kp N9`
+- base-layer `2` becomes a layer-tap to the scroll layer
+- base-layer `9` becomes a layer-tap to the scroll layer
+- a scroll layer exists with the requested mirrored left/right mappings
+- the scroll layer keeps `S/D/F` and `J/K/L` as mouse buttons
 
-### Task 3: Implement the new mouse layer entry keys
+### Task 3: Implement the new scroll layer entry keys
 
 **Files:**
 - Modify: `config/silakka54.keymap`
 
 **Step 1: Write the minimal implementation**
 
-Replace the base-layer `1` and `0` bindings with layer-tap behavior so:
-- tap `1` -> `1`
-- hold `1` -> mouse layer
-- tap `0` -> `0`
-- hold `0` -> mouse layer
+Replace the base-layer `2` and `9` bindings with layer-tap behavior so:
+- tap `2` -> `2`
+- hold `2` -> scroll layer
+- tap `9` -> `9`
+- hold `9` -> scroll layer
 
-Reuse an existing hold-tap behavior if appropriate, or add the smallest new helper behavior needed.
+Reuse the existing hold-tap behavior if appropriate, or add the smallest new helper behavior needed.
 
 **Step 2: Verify the structural change**
 
-Run: `rg -n "N1|N0|layer_mouse|mouse" config/silakka54.keymap`
-Expected: the plain base `&kp N1` and `&kp N0` are gone or replaced at those positions, and the new mouse layer is present.
+Run: `rg -n "N2|N9|layer_scroll|scroll" config/silakka54.keymap`
+Expected: the plain base `&kp N2` and `&kp N9` are gone or replaced at those positions, and the new scroll layer is present.
 
-### Task 4: Tune the mouse movement curve for precise-then-fast behavior
-
-**Files:**
-- Modify: `config/silakka54.keymap`
-
-**Step 1: Override the default max movement value before including ZMK pointing defines**
-
-Set the mouse-move default magnitude to `1400` so the eventual top speed is meaningfully faster than the ZMK default of `600`.
-
-**Step 2: Configure `&mmv` for a 300ms delayed-turbo ramp**
-
-Add or update an `&mmv` node so it uses:
-- `time-to-max-speed-ms = <300>`
-- `acceleration-exponent = <2>`
-- `delay-ms = <0>`
-
-This should make short holds feel more precise while longer holds ramp into a faster movement mode.
-
-**Step 3: Verify the tuning is present**
-
-Run: `rg -n "ZMK_POINTING_DEFAULT_MOVE_VAL|time-to-max-speed-ms|acceleration-exponent|delay-ms|&mmv" config/silakka54.keymap`
-Expected: the keymap shows the `1400` move value override and the `&mmv` tuning block with the 300ms ramp.
-
-### Task 5: Implement the mouse layer mappings
+### Task 4: Implement the scroll layer mappings and speed behavior
 
 **Files:**
 - Modify: `config/silakka54.keymap`
 
-**Step 1: Add continuous movement bindings**
+**Step 1: Add mirrored continuous scroll bindings**
 
-Map left-hand movement:
+Map left-hand scroll movement:
+- `A` -> scroll up
+- `Z` -> scroll down
+- `X` -> scroll left
+- `C` -> scroll right
+
+Map right-hand scroll movement:
+- `'` -> scroll up
+- `/` -> scroll down
+- `,` -> scroll left
+- `.` -> scroll right
+
+Use ZMK scroll bindings that repeat while held.
+
+**Step 2: Keep button bindings on the scroll layer**
+
+Map:
+- `S/D/F` -> left/middle/right button
+- `J/K/L` -> left/middle/right button
+
+Use the same press/release semantics as the mouse layer.
+
+**Step 3: Keep scroll speed constant while preserving the tuned mouse ramp**
+
+Do not add the mouse delayed-turbo ramp to scroll. Preserve the existing tuned mouse `&mmv` settings, but configure scroll behavior so it remains constant-speed.
+
+**Step 4: Verify the scroll layer and speed intent are present**
+
+Run: `rg -n "layer_scroll|msc|SCRL|WHEEL|LCLK|MCLK|RCLK|ZMK_POINTING_DEFAULT_MOVE_VAL|time-to-max-speed-ms|acceleration-exponent|delay-ms" config/silakka54.keymap`
+Expected: the keymap shows the new scroll layer, mirrored scroll bindings, preserved button mappings, and the tuned mouse `&mmv` block.
+
+### Task 5: Re-verify the mouse layer mappings remain correct
+
+**Files:**
+- Read/verify: `config/silakka54.keymap`
+
+**Step 1: Re-check the mouse movement bindings**
+
+Confirm left-hand movement:
 - `A` -> mouse up
 - `Z` -> mouse down
 - `X` -> mouse left
 - `C` -> mouse right
 
-Map right-hand movement:
+Confirm right-hand movement:
 - `'` -> mouse up
 - `/` -> mouse down
 - `,` -> mouse left
 - `.` -> mouse right
 
-Use ZMK mouse movement bindings that repeat while held.
+**Step 2: Re-check the mouse button bindings**
 
-**Step 2: Add mouse button bindings**
+Confirm:
+- `S/D/F` -> left/middle/right button
+- `J/K/L` -> left/middle/right button
 
-Map left-hand buttons:
-- `S` -> left button
-- `D` -> middle button
-- `F` -> right button
-
-Map right-hand buttons:
-- `J` -> left button
-- `K` -> middle button
-- `L` -> right button
-
-Use bindings with press/release semantics so key hold maps to mouse-button hold.
-
-**Step 3: Verify the final mapping exists**
+**Step 3: Verify the final mouse + scroll mapping exists**
 
 Run a targeted search after implementation, for example:
-`rg -n "layer_mouse|mkp|mmv|MOVE_UP|MOVE_DOWN|MOVE_LEFT|MOVE_RIGHT|LCLK|MCLK|RCLK" config/silakka54.keymap`
-Expected: all requested mirrored mappings are visible on the new layer.
+`rg -n "layer_mouse|layer_scroll|mkp|mmv|msc|MOVE_UP|MOVE_DOWN|MOVE_LEFT|MOVE_RIGHT|SCRL|WHEEL|LCLK|MCLK|RCLK" config/silakka54.keymap`
+Expected: all requested mirrored mouse and scroll mappings are visible on the new layers.
 
 ### Task 6: Update README and Vial notes
 
@@ -168,24 +167,28 @@ Expected: all requested mirrored mappings are visible on the new layer.
 **Step 1: Add the new layer description to README**
 
 Document:
-- `1` and `0` tap/hold behavior
+- `1` and `0` tap/hold behavior for the mouse layer
+- `2` and `9` tap/hold behavior for the scroll layer
 - the mouse layer purpose
-- the left-hand `A/Z/X/C` movement and `S/D/F` button cluster
-- the right-hand `'`/`/`/`,`/`.` movement and `J/K/L` button cluster
-- that mouse movement now starts precise and ramps to a faster top speed after roughly 300ms
+- the scroll layer purpose
+- the left-hand `A/Z/X/C` movement/scroll cluster and `S/D/F` button cluster
+- the right-hand `'`/`/`/`,`/`.` movement/scroll cluster and `J/K/L` button cluster
+- that mouse movement starts precise and ramps to a faster top speed after roughly 300ms
+- that scroll remains constant-speed
 
 **Step 2: Update Vial/QMK compatibility notes**
 
 Document in `docs/vial-notes.md`:
-- how the mirrored ZMK mouse layer is represented in `vial-export.vil`
-- whether the hold-on-`1`/`0` layer-taps can be represented directly
-- whether mouse movement acceleration/timing and mouse button hold behavior are fully representable in the export
+- how the mirrored ZMK mouse and scroll layers are represented in `vial-export.vil`
+- whether the hold-on-`1`/`0` and hold-on-`2`/`9` layer-taps can be represented directly
+- whether mouse movement acceleration/timing, constant-speed scrolling, and mouse button hold behavior are fully representable in the export
+- that mouse timing/tuning changes must stay synchronized in the Vial export/docs notes whenever `ZMK_POINTING_DEFAULT_MOVE_VAL` or `&mmv` values change
 - any ZMK-only behavior that must remain approximate or transparent in Vial
 
 **Step 3: Verify docs match implementation**
 
-Run: `rg -n "mouse layer|A/Z/X/C|S/D/F|J/K/L|300ms|precise|fast|tap.*1|tap.*0|hold.*mouse|Vial|QMK|vial-export" README.md docs/vial-notes.md`
-Expected: README and Vial notes reflect the mirrored behavior, the 300ms acceleration ramp, and any export caveats.
+Run: `rg -n "mouse layer|scroll layer|A/Z/X/C|S/D/F|J/K/L|300ms|precise|fast|constant|tap.*1|tap.*0|tap.*2|tap.*9|hold.*mouse|hold.*scroll|Vial|QMK|vial-export" README.md docs/vial-notes.md`
+Expected: README and Vial notes reflect the mirrored mouse+scroll behavior, the 300ms mouse acceleration ramp, the constant scroll behavior, and any export caveats.
 
 ### Task 7: Update the Vial export artifact
 
@@ -201,10 +204,12 @@ Expected: locate the existing base-layer `1` slot and any currently represented 
 
 Update `vial-export.vil` so it reflects:
 - base `1` and `0` as layer-taps to the mouse layer if supported by the export model
+- base `2` and `9` as layer-taps to the scroll layer if supported by the export model
 - the mouse layer positions for both left and right mirrored clusters
+- the scroll layer positions for both left and right mirrored clusters
 - any required Vial macro, tap-dance, or transparent fallback for behaviors that do not have a trustworthy native export equivalent
 
-Do not try to encode ZMK-specific acceleration timing in the Vial export unless the model can represent it honestly; document the limitation instead.
+Do not try to encode ZMK-specific mouse acceleration timing in the Vial export unless the model can represent it honestly; document the limitation instead. Likewise, if constant-speed scroll behavior cannot be represented faithfully, document that limitation rather than faking parity. If a commit changes `ZMK_POINTING_DEFAULT_MOVE_VAL` or any `&mmv` timing field, the same commit must also update `docs/vial-notes.md` so the export/documentation stays in sync with the ZMK source of truth.
 
 Prefer a conservative export:
 - represent only behavior the Vial/QMK artifact can honestly express
@@ -212,8 +217,8 @@ Prefer a conservative export:
 
 **Step 3: Verify the export changed in the expected places**
 
-Run: `rg -n "KC_1|LT|MO\(|KC_MS_|MS_|BTN|QMK|Vial" vial-export.vil docs/vial-notes.md`
-Expected: the export and notes show the mirrored mouse-layer-related changes or explicitly document limitations.
+Run: `rg -n "KC_1|KC_2|KC_9|LT|MO\(|KC_MS_|MS_|BTN|WH_|WHEEL|QMK|Vial" vial-export.vil docs/vial-notes.md`
+Expected: the export and notes show the mirrored mouse- and scroll-layer-related changes or explicitly document limitations, including synced notes about mouse timing.
 
 ### Task 8: Verify the change before claiming completion
 
@@ -241,23 +246,29 @@ Expected: the firmware builds successfully.
 
 Confirm manually:
 - tap `1` types `1`
+- tap `0` types `0`
+- tap `2` types `2`
+- tap `9` types `9`
 - hold `1` enables mouse layer while held
 - hold `0` enables mouse layer while held
-- `A/Z/X/C` start with precise movement and ramp to a faster top speed after about 300ms
-- `'`/`/`/`,`/`.` start with precise movement and ramp to a faster top speed after about 300ms
-- `S/D/F` hold and release mouse buttons correctly
-- `J/K/L` hold and release mouse buttons correctly
+- hold `2` enables scroll layer while held
+- hold `9` enables scroll layer while held
+- `A/Z/X/C` and `'`/`/`/`,`/`.` on the mouse layer start with precise movement and ramp to a faster top speed after about 300ms
+- `A/Z/X/C` and `'`/`/`/`,`/`.` on the scroll layer scroll continuously at constant speed
+- `S/D/F` hold and release mouse buttons correctly on both layers
+- `J/K/L` hold and release mouse buttons correctly on both layers
 
 **Step 4: Sanity-check the Vial artifact**
 
 Confirm manually or by inspection:
-- the `1`/`0` positions and mirrored mouse layer positions are updated in `vial-export.vil`
-- any unsupported behavior is called out in `docs/vial-notes.md`
+- the `1`/`0` mouse-layer positions and `2`/`9` scroll-layer positions are updated in `vial-export.vil`
+- mirrored mouse and scroll layer positions are updated as far as the format can honestly represent them
+- mouse timing sync notes and any unsupported behavior are called out in `docs/vial-notes.md`
 - no unrelated Vial layers/macros were changed accidentally
 
 **Step 5: Commit**
 
 ```bash
 git add config/silakka54.keymap README.md docs/vial-notes.md vial-export.vil docs/generated/silakka54.yaml docs/generated/silakka54.svg docs/plans/2026-04-18-mouse-layer-design.md docs/plans/2026-04-18-mouse-layer.md
-git commit -m "feat(keymap): mirror mouse layer on both halves"
+git commit -m "feat(keymap): add mirrored scroll layer"
 ```
