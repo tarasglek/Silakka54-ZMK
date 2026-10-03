@@ -111,8 +111,8 @@ layers:
   - {t: BT, h: '2'}
   - {t: ▽, type: trans}
   nav:
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
+  - OUT USB
+  - OUT BLE
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}

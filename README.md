@@ -51,6 +51,9 @@ On both mirrored layers, the visible direction cluster is on `, . / '`:
 - `, . / '` on `desktop-move` -> Ctrl+Alt+Left / Right / Down / Up
 
 Additional `nav` bindings:
+- Hold the rightmost thumb `=` key, then tap the top-left `Esc` position -> select USB output.
+- Hold `=` and tap the `1` position (next to `Esc`) -> select BLE output.
+- Output selection is silent; it does not turn Bluetooth off, which remains enabled for the split link.
 - `Tab` -> Alt+Tab
 
 ### Mouse and scroll layers
