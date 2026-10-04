@@ -1,0 +1,2 @@
+zephyr_library()
+zephyr_library_sources_ifdef(CONFIG_SILAKKA54_DONGLE_TOUCH src/dongle_touch.c)

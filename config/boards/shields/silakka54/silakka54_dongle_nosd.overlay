@@ -20,6 +20,13 @@
     };
 };
 
+/* Separate from the Studio UART supplied by studio-rpc-usb-uart. */
+&zephyr_udc0 {
+    dongle_touch_uart: dongle_touch_uart {
+        compatible = "zephyr,cdc-acm-uart";
+    };
+};
+
 /* Keep the nice!nano's programmable blue LED off in dongle firmware. */
 &gpio0 {
     blue_led_off: blue-led-off {

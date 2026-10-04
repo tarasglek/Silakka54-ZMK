@@ -10,7 +10,15 @@ permissions:
   contents: write
 
 jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - name: Run module host tests
+        run: make test
+
   build:
+    needs: test
     uses: zmkfirmware/zmk/.github/workflows/build-user-config.yml@45de943485ac009660037eb81a7265e1cafe2b4e
 
   package:

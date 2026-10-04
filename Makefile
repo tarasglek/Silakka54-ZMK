@@ -17,9 +17,15 @@ DOCKER_RUN = docker run --rm \
 	$(IMAGE) \
 	bash -lc
 
-.PHONY: build build-left build-right build-dongle build-reset deps clean keymap-yaml keymap-svg keymap-docs
+.PHONY: test build build-left build-right build-dongle build-reset deps clean keymap-yaml keymap-svg keymap-docs
 
 build: build-left build-right build-dongle build-reset
+
+# Host tests need only a C11 compiler, not Docker or firmware dependencies.
+test:
+	@set -eu; binary=$$(mktemp); trap 'rm -f "$$binary"' EXIT; \
+		$(CC) -std=c11 -Wall -Wextra -Werror -Itests tests/dongle_touch_test.c -o "$$binary"; \
+		"$$binary"
 
 deps: $(DEPS_STAMP)
 
@@ -57,7 +63,7 @@ build-dongle: $(DEPS_STAMP)
 		git config --global --add safe.directory "*" || true; \
 		[ -d .west ] || west init -l config; \
 		if west help 2>/dev/null | grep -q "zephyr-export"; then west zephyr-export; fi; \
-		west build -p always -s zmk/app -d $(BUILD_DIR)/silakka54_dongle_nosd -b nice_nano -S studio-rpc-usb-uart -- -DZMK_CONFIG=/work/config -DSHIELD="silakka54_dongle_nosd"; \
+		west build -p always -s zmk/app -d $(BUILD_DIR)/silakka54_dongle_nosd -b nice_nano -S studio-rpc-usb-uart -- -DZMK_CONFIG=/work/config -DZMK_EXTRA_MODULES=/work/module -DSHIELD="silakka54_dongle_nosd"; \
 		cp $(BUILD_DIR)/silakka54_dongle_nosd/zephyr/zmk.uf2 /work/$(ARTIFACTS_DIR)/silakka54_dongle_nosd.uf2'
 
 build-reset: $(DEPS_STAMP)

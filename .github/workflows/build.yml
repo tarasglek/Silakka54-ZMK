@@ -7,12 +7,16 @@ on:
       - "build.yaml"
       - "config/**"
       - "Makefile"
+      - "module/**"
+      - "tests/**"
   pull_request:
     paths:
       - ".github/workflows/build.yml"
       - "build.yaml"
       - "config/**"
       - "Makefile"
+      - "module/**"
+      - "tests/**"
   workflow_dispatch:
 
 jobs:
@@ -21,6 +25,9 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v6
+
+      - name: Run module host tests
+        run: make test
 
       - name: Cache build dependencies
         uses: actions/cache@v5

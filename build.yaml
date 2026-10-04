@@ -10,5 +10,6 @@ include:
     shield: silakka54_dongle_nosd
     snippet: studio-rpc-usb-uart
     artifact-name: silakka54_dongle_nosd
+    cmake-args: -DZMK_EXTRA_MODULES=${GITHUB_WORKSPACE}/module
   - board: nice_nano
     shield: settings_reset

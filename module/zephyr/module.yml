@@ -1,0 +1,4 @@
+name: silakka54-dongle-touch
+build:
+  cmake: .
+  kconfig: Kconfig

@@ -117,6 +117,17 @@ Scroll uses ZMK mouse scroll bindings on the same physical shape as the mouse la
 
 - `overflow` still carries media/Bluetooth keys and `studio_unlock`.
 
+### Dongle bootloader touch
+
+The dongle exposes a dedicated CDC ACM UART in addition to Studio's UART.
+A **baud-rate change to 1200** on that dedicated interface schedules a warm
+reboot into the UF2 bootloader, after setting ZMK's retained boot-mode request.
+Studio traffic and other baud rates do not request a reset. Identify the dedicated
+interface rather than assuming a fixed `/dev/ttyACM*` number. Repeating an unchanged
+1200-baud setting does not retrigger the pinned CDC driver; change away first.
+Physical reset remains available. Host tests cover callback/work logic, not USB
+hardware enumeration or the physical bootloader.
+
 ### Bluetooth
 
 - Profiles on `overflow` (`BT_SEL 0..3`)
@@ -152,6 +163,7 @@ The workflow generates firmware for:
 Requirements:
 - Docker
 - GNU Make
+- C11 compiler for `make test` (module host tests, also run by build/release CI)
 
 Run:
 

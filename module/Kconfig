@@ -1,0 +1,6 @@
+config SILAKKA54_DONGLE_TOUCH
+    bool "Silakka54 dongle bootloader touch"
+    depends on ZMK_SPLIT && ZMK_SPLIT_ROLE_CENTRAL && USB_CDC_ACM && RETENTION_BOOT_MODE
+    help
+      Request UF2 bootloader entry when the dedicated dongle CDC ACM
+      interface receives a 1200 baud line-coding change.
