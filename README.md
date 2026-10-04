@@ -6,6 +6,22 @@ A ZMK firmware configuration for the **Silakka54** split ergonomic keyboard.
 
 The Silakka54 is a 54-key split keyboard using a native `silakka54` ZMK shield/keymap. The layout is modeled directly as 54 physical positions (no compatibility dead slots).
 
+Both keyboard halves are BLE peripherals. A switchless USB-powered dongle is the
+split central for both halves, runs the keymap, and provides USB/BLE host output
+and ZMK Studio over USB. The dongle is required; neither half is a standalone
+central. The existing matrix, 54-key transform, and nice!view screens are retained.
+
+### Dongle hardware restriction
+
+**`silakka54_dongle_nosd.uf2` is ONLY for nice!nano UF2 Bootloader 0.6.0
+with no SoftDevice**, confirmed on dongle serial `9334726186A3C03E`.
+Its application starts at `0x1000`, not standard nice!nano's `0x26000`.
+Code occupies `0x1000..0xEC000`; settings remain at `0xEC000..0xF4000`.
+**Never flash this image on an ordinary nice!nano with S140 installed.**
+The dedicated `silakka54_dongle_nosd` shield/artifact names isolate this
+hardware-specific layout while reusing the compatible `nice_nano` board drivers.
+No generic dongle image or S140 dongle target is provided.
+
 ### Hardware
 
 - **Controller**: nice!nano
@@ -108,8 +124,9 @@ Scroll uses ZMK mouse scroll bindings on the same physical shape as the mouse la
 
 ### Display / power
 
-- nice!view support enabled
+- nice!view support enabled on both halves (not on the dongle)
 - Deep sleep enabled (`CONFIG_ZMK_SLEEP=y`)
+- USB logging disabled on both halves; Studio USB transport is on the dongle
 
 ## Keymap Visualization
 
@@ -127,7 +144,8 @@ Firmware is built automatically via GitHub Actions. Push to the repository to tr
 The workflow generates firmware for:
 - `silakka54_left` with nice!view
 - `silakka54_right` with nice!view
-- `settings_reset` (for clearing bond information)
+- `silakka54_dongle_nosd` (no-SoftDevice central, Studio USB)
+- `settings_reset` (standard-layout halves only; **not the no-SD dongle**)
 
 ### Local Build (Docker)
 
@@ -144,16 +162,36 @@ make build
 Outputs are written to `artifacts/`:
 - `artifacts/silakka54_left.uf2`
 - `artifacts/silakka54_right.uf2`
-- `artifacts/settings_reset.uf2`
+- `artifacts/silakka54_dongle_nosd.uf2`
+- `artifacts/settings_reset.uf2` (standard-layout halves only)
 
-GitHub Actions uses the same `make build` path.
+GitHub Actions uses the same `make build` path. Every build configures pristine,
+so removed snippets or changed split roles cannot survive in CMake caches.
+Dependencies and compiler results remain cached; CI does not cache build trees.
+Use `BUILD_DIR=build/scratch ARTIFACTS_DIR=artifacts/scratch` for isolated builds.
+
+Tagged releases package these same four UF2 files in `firmware.zip`, alongside
+`SHA256SUMS` containing the archive checksum. Check the dongle hardware restriction
+before choosing any image; UF2 filenames are warnings, not a flashing interlock.
 
 ## Installation
 
-1. Download the firmware artifacts from GitHub Actions
-2. Put your nice!nano into bootloader mode (double-tap reset)
-3. Copy the `.uf2` file to the mounted drive
-4. Repeat for the other half
+1. Download the matching firmware artifacts and verify the dongle's loader/layout.
+2. Put each controller into bootloader mode using its physical reset control.
+3. Install `silakka54_left.uf2` and `silakka54_right.uf2` on the matching halves,
+   and `silakka54_dongle_nosd.uf2` only on the confirmed no-SoftDevice dongle.
+4. Power the dongle and both halves. Pair the host with the dongle for BLE output,
+   or select USB output. Studio connects to the dongle, not the left half.
+
+When migrating from left-central firmware, clear old split bonds on both halves
+with `settings_reset.uf2`, then reinstall their normal firmware and restart all
+three controllers. This reset image starts at `0x26000` and must **not** be used
+on the no-SD dongle; no dongle settings-reset image is supplied. A previously
+bonded dongle needs a compatible no-SD settings-clear procedure before reuse.
+Host BLE pairings may also need removal/re-pairing after changing central.
+To roll back, restore both halves from the same pre-dongle release (left central);
+do not mix central/peripheral generations. No bootloader/reset thumb bindings
+are present: mouse-layer thumbs retain Enter/Space.
 
 ## File Structure
 

@@ -3,3 +3,6 @@ config SHIELD_SILAKKA54_LEFT
 
 config SHIELD_SILAKKA54_RIGHT
     def_bool $(shields_list_contains,silakka54_right)
+
+config SHIELD_SILAKKA54_DONGLE_NOSD
+    def_bool $(shields_list_contains,silakka54_dongle_nosd)

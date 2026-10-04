@@ -32,11 +32,11 @@ jobs:
             zephyr
             zmk
             tools
-            build
             .cache
-          key: ${{ runner.os }}-zmk-build-${{ hashFiles('build.yaml', 'Makefile', 'config/**') }}
+          # Cache dependencies/compiler results, never snippet-bearing build trees.
+          key: ${{ runner.os }}-zmk-deps-v2-${{ hashFiles('config/west.yml', 'Makefile') }}
           restore-keys: |
-            ${{ runner.os }}-zmk-build-
+            ${{ runner.os }}-zmk-deps-v2-
 
       - name: Build firmware
         run: make build

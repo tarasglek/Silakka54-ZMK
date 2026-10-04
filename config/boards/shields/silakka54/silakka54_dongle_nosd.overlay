@@ -1,0 +1,31 @@
+#include "silakka54-dongle-transform.dtsi"
+
+/* ONLY nice!nano UF2 Bootloader 0.6.0 without SoftDevice (S140).
+ * Confirmed dongle serial: 9334726186A3C03E; application vectors at 0x1000.
+ * Never flash this target on standard nice!nano/S140 hardware.
+ * Inherit storage_partition unchanged: 0xEC000..0xF4000.
+ */
+/delete-node/ &sd_partition;
+/delete-node/ &code_partition;
+
+&flash0 {
+    partitions {
+        sd_partition: partition@0 {
+            reg = <0x00000000 0x00001000>;
+        };
+
+        code_partition: partition@1000 {
+            reg = <0x00001000 0x000eb000>;
+        };
+    };
+};
+
+/* Keep the nice!nano's programmable blue LED off in dongle firmware. */
+&gpio0 {
+    blue_led_off: blue-led-off {
+        gpio-hog;
+        gpios = <15 GPIO_ACTIVE_HIGH>;
+        output-low;
+        line-name = "dongle-blue-led-off";
+    };
+};
