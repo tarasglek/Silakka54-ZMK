@@ -129,17 +129,17 @@
             display-name = "overflow";
             bindings = <
 &kp DEL                 &kp F1              &kp F2      &kp F3      &kp F4      &kp F5       &kp F6         &kp F7      &kp F8      &kp F9      &kp F10     &kp F11
-&kp C_BRIGHTNESS_DEC    &kp C_BRIGHTNESS_INC &trans     &trans      &trans      &trans       &trans         &kp UP      &trans      &trans      &trans      &kp F12
+&kp C_BRIGHTNESS_DEC    &kp C_BRIGHTNESS_INC &out OUT_USB &out OUT_BLE &bt BT_SEL 1 &trans       &trans         &kp UP      &trans      &trans      &trans      &kp F12
 &kp CAPSLOCK            &trans              &kp C_PREV  &kp C_NEXT  &kp C_PLAY_PAUSE &kp C_VOL_UP &kp LEFT  &td0        &kp RIGHT   &trans      &kp PGUP    &studio_unlock
-&trans                  &trans              &trans      &trans      &trans      &kp C_VOL_DN &trans         &kp DOWN    &kp HOME    &kp END     &kp PG_DN   &trans
-                                              &bt BT_SEL 0   &bt BT_SEL 1 &bt BT_CLR    &bt BT_SEL 3 &bt BT_SEL 2  &trans
+&trans                  &trans              &trans      &trans      &trans      &kp C_VOL_DN &trans         &kp DOWN    &kp HOME    &kp END     &kp PG_DN   &bt BT_CLR
+                                              &bt BT_SEL 0   &trans      &trans        &bt BT_SEL 3 &bt BT_SEL 2  &trans
             >;
         };
 
         layer_nav {
             display-name = "nav";
             bindings = <
-&out OUT_USB      &out OUT_BLE  &trans      &trans      &trans      &trans       &trans       &trans      &trans      &trans      &trans      &trans
+&trans            &trans        &trans      &trans      &trans      &trans       &trans       &trans      &trans      &trans      &trans      &trans
 &trans            &trans        &trans      &trans      &trans      &trans       &trans       &trans      &trans      &trans      &trans      &trans
 &trans            &trans        &trans      &trans      &trans      &trans       &trans       &trans      &trans      &trans      &kp UP      &trans
 &trans            &trans        &trans      &trans      &trans      &trans       &trans       &trans      &kp LEFT    &kp RIGHT   &kp DOWN    &trans

@@ -70,9 +70,9 @@ layers:
   - F11
   - BRIGHTNESS DEC
   - BRIGHTNESS INC
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
+  - OUT USB
+  - OUT BLE
+  - {t: BT, h: '1'}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - UP
@@ -103,16 +103,16 @@ layers:
   - HOME
   - END
   - PG DN
-  - {t: ▽, type: trans}
-  - {t: BT, h: '0'}
-  - {t: BT, h: '1'}
   - BT CLR
+  - {t: BT, h: '0'}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
   - {t: BT, h: '3'}
   - {t: BT, h: '2'}
   - {t: ▽, type: trans}
   nav:
-  - OUT USB
-  - OUT BLE
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}

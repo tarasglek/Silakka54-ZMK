@@ -36,7 +36,7 @@ The keymap includes 7 active layers:
 | Layer | Name | Description |
 |-------|------|-------------|
 | 0 | `base` | Base typing layer |
-| 1 | `overflow` | Fn/media/Bluetooth + Studio unlock |
+| 1 | `overflow` | Fn/media, USB/BLE output and Bluetooth controls + Studio unlock |
 | 2 | `nav` | Navigation layer (arrows + Alt+Tab + Alt+F4) |
 | 3 | `desktop-move` | Desktop-move layer (Ctrl+Alt arrows) |
 | 4 | `onehand-mirror` | One-shot mirrored right-hand typing layer |
@@ -51,7 +51,8 @@ The keymap includes 7 active layers:
 - `0`: tap for `0`, hold for the `mouse` layer.
 - `2`: tap for `2` (still `Alt+F2` when `Alt` is held), hold for the `scroll` layer.
 - `9`: tap for `9`, hold for the `scroll` layer.
-- `[` and `=`: tap for key, hold for `nav` layer.
+- `[`: tap for `[`, hold for `LAlt`.
+- `=`: tap for `=`, hold for the `nav` layer.
 - `]`: tap for key, hold for `overflow` layer.
 - `-`: tap for key, hold for `desktop-move` layer.
 - `TD(1)` remains on `]`:
@@ -66,11 +67,18 @@ On both mirrored layers, the visible direction cluster is on `, . / '`:
 - `, . / '` on `nav` -> Left / Right / Down / Up arrows
 - `, . / '` on `desktop-move` -> Ctrl+Alt+Left / Right / Down / Up
 
-Additional `nav` bindings:
-- Hold the rightmost thumb `=` key, then tap the top-left `Esc` position -> select USB output.
-- Hold `=` and tap the `1` position (next to `Esc`) -> select BLE output.
-- Output selection is silent; it does not turn Bluetooth off, which remains enabled for the split link.
-- `Tab` -> Alt+Tab
+### USB/BLE output and Bluetooth controls
+
+Hold `]` to access `overflow`, then tap the appropriate key:
+- `W` -> select USB host output.
+- `E` -> select BLE host output.
+- `R` -> select Bluetooth profile 1.
+- `Tab` -> clear bonding for the currently selected Bluetooth profile.
+- `[` -> select Bluetooth profile 0.
+- `Space` -> select Bluetooth profile 3.
+- `-` -> select Bluetooth profile 2.
+
+Output selection is silent. Selecting USB does not turn Bluetooth off; Bluetooth remains enabled for the BLE split link.
 
 ### Mouse and scroll layers
 
@@ -115,7 +123,7 @@ Scroll uses ZMK mouse scroll bindings on the same physical shape as the mouse la
 
 ### Fn usage + Studio unlock
 
-- `overflow` still carries media/Bluetooth keys and `studio_unlock`.
+- `overflow` carries media, USB/BLE output selectors, Bluetooth profile/clear controls, and `studio_unlock`.
 
 ### Dongle bootloader touch
 
@@ -130,8 +138,9 @@ hardware enumeration or the physical bootloader.
 
 ### Bluetooth
 
-- Profiles on `overflow` (`BT_SEL 0..3`)
-- Clear bonding via `BT_CLR`
+- Profiles are selected on `overflow` (`BT_SEL 0..3`); hold `]` and tap `[`, `R`, `-`, or `Space` for profiles 0, 1, 2, or 3 respectively.
+- `BT_CLR` on `overflow` clears bonding for the currently selected Bluetooth profile. Hold `]` and tap `Tab`.
+- Bluetooth remains enabled for the BLE split link even when USB is selected as host output.
 
 ### Display / power
 
@@ -143,7 +152,7 @@ hardware enumeration or the physical bootloader.
 
 Generated layout docs are committed under `docs/generated/`.
 
-- Regenerate YAML + SVG: `make keymap-svg`
+- Regenerate YAML + SVG: `make keymap-docs`
 - Canonical rendered keymap: [`docs/generated/silakka54.svg`](docs/generated/silakka54.svg)
 
 ![Generated Silakka54 keymap](docs/generated/silakka54.svg)
